@@ -1,0 +1,130 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/GitHub Docs/VGAOSST/simulation/qsim
+vBCDCounter
+Z1 !s110 1629783261
+!i10b 1
+!s100 fcc``RDTB_jH6P;JFPn[L2
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+I2QaNndn;lK4V`ch@4;46_2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1629783260
+Z4 8VGAOSST.vo
+Z5 FVGAOSST.vo
+!i122 8
+L0 32 308
+Z6 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z7 !s108 1629783261.000000
+Z8 !s107 VGAOSST.vo|
+Z9 !s90 -work|work|VGAOSST.vo|
+!i113 1
+Z10 o-work work
+Z11 tCvgOpt 0
+n@b@c@d@counter
+vBCDCounter_vlg_vec_tst
+R1
+!i10b 1
+!s100 >l:LQ]LhGj9k7>E1OD19?3
+R2
+Ii:[=TldYGEQXU5`4Cm`Rl1
+R3
+R0
+w1629783259
+Z12 8Waveform.vwf.vt
+Z13 FWaveform.vwf.vt
+!i122 9
+L0 30 42
+R6
+r1
+!s85 0
+31
+R7
+!s107 Waveform.vwf.vt|
+Z14 !s90 -work|work|Waveform.vwf.vt|
+!i113 1
+R10
+R11
+n@b@c@d@counter_vlg_vec_tst
+vhard_block
+Z15 !s110 1629784761
+!i10b 1
+!s100 >AW6]SH9F;F4_z]NC5;V]0
+R2
+IEkJgR7[nh=LE8ZmFMH[[N0
+R3
+R0
+Z16 w1629784760
+R4
+R5
+!i122 20
+L0 897 34
+R6
+r1
+!s85 0
+31
+Z17 !s108 1629784761.000000
+R8
+R9
+!i113 1
+R10
+R11
+vVGAOSST
+R15
+!i10b 1
+!s100 CaNTkSch@FWQYV572d9Jz0
+R2
+IIAN:Li:Akj7T1EB3<FSLW0
+R3
+R0
+R16
+R4
+R5
+!i122 20
+L0 32 864
+R6
+r1
+!s85 0
+31
+R17
+R8
+R9
+!i113 1
+R10
+R11
+n@v@g@a@o@s@s@t
+vVGAOSST_vlg_vec_tst
+R15
+!i10b 1
+!s100 1obI^DgCZZKD]>k32aeFa2
+R2
+I7E[N^W1AzOFFI;=g3A:jg1
+R3
+R0
+w1629784759
+R12
+R13
+!i122 21
+L0 30 63
+R6
+r1
+!s85 0
+31
+R17
+Z18 !s107 Waveform.vwf.vt|
+R14
+!i113 1
+R10
+R11
+n@v@g@a@o@s@s@t_vlg_vec_tst
