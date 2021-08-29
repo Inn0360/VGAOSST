@@ -2,7 +2,28 @@
 	"partitions" : [
 		{
 			"name" : "Top",
-			"pins" : []
+			"pins" : [
+				{
+					"name" : "HSync",
+					"strict" : false
+				},
+				{
+					"name" : "VsYNC",
+					"strict" : false
+				},
+				{
+					"name" : "DisplayOn",
+					"strict" : false
+				},
+				{
+					"name" : "Clock",
+					"strict" : false
+				},
+				{
+					"name" : "Reset",
+					"strict" : false
+				}
+			]
 		}
 	]
 }

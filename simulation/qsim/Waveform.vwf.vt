@@ -19,50 +19,36 @@
 // the top level entity of the current Quartus project .The user can use this   
 // testbench to simulate his design using a third-party simulation tool .       
 // *****************************************************************************
-// Generated on "08/24/2021 15:59:19"
+// Generated on "08/28/2021 22:32:04"
                                                                                 
-// Verilog Test Bench (with test vectors) for design :                          VGAOSST
+// Verilog Test Bench (with test vectors) for design :                          VGA_CONTROLLER
 // 
 // Simulation tool : 3rd Party
 // 
 
 `timescale 1 ps/ 1 ps
-module VGAOSST_vlg_vec_tst();
+module VGA_CONTROLLER_vlg_vec_tst();
 // constants                                           
 // general purpose registers
 reg Clock;
 reg Reset;
 // wires                                               
-wire pin_name1;
-wire pin_name2;
-wire pin_name3;
-wire pin_name4;
-wire pin_name5;
-wire pin_name6;
-wire pin_name7;
-wire pin_name8;
-wire pin_name9;
-wire pin_name10;
-wire pin_name11;
-wire pin_name12;
+wire Blank;
+wire DisplayOn;
+wire HSync;
+wire Sync;
+wire VsYNC;
 
 // assign statements (if any)                          
-VGAOSST i1 (
+VGA_CONTROLLER i1 (
 // port map - connection between master ports and signals/registers   
+	.Blank(Blank),
 	.Clock(Clock),
-	.pin_name1(pin_name1),
-	.pin_name2(pin_name2),
-	.pin_name3(pin_name3),
-	.pin_name4(pin_name4),
-	.pin_name5(pin_name5),
-	.pin_name6(pin_name6),
-	.pin_name7(pin_name7),
-	.pin_name8(pin_name8),
-	.pin_name9(pin_name9),
-	.pin_name10(pin_name10),
-	.pin_name11(pin_name11),
-	.pin_name12(pin_name12),
-	.Reset(Reset)
+	.DisplayOn(DisplayOn),
+	.HSync(HSync),
+	.Reset(Reset),
+	.Sync(Sync),
+	.VsYNC(VsYNC)
 );
 initial 
 begin 
@@ -70,24 +56,17 @@ begin
 end 
 
 // Clock
-initial
+always
 begin
-	Clock = 1'b1;
-	Clock = #20000 1'b0;
+	Clock = 1'b0;
 	Clock = #10000 1'b1;
-	# 10000;
-	repeat(48)
-	begin
-		Clock = 1'b0;
-		Clock = #10000 1'b1;
-		# 10000;
-	end
+	#10000;
 end 
 
 // Reset
 initial
 begin
-	Reset = 1'b0;
+	Reset = 1'b1;
 end 
 endmodule
 

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for VGAOSST
-Tue Aug 24 17:58:00 2021
+Sat Aug 28 22:36:22 2021
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
 
 
@@ -10,7 +10,16 @@ Quartus Prime Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. General Register Statistics
+  9. Inverted Register Statistics
+ 10. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 11. Parameter Settings for User Entity Instance: vga_timing:inst
+ 12. Post-Synthesis Netlist Statistics for Top Partition
+ 13. Elapsed Time Per Partition
+ 14. Analysis & Synthesis Messages
 
 
 
@@ -37,20 +46,20 @@ https://fpgasoftware.intel.com/eula.
 +------------------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                                   ;
 +------------------------------------+-----------------------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Tue Aug 24 17:58:00 2021                         ;
+; Analysis & Synthesis Status        ; Successful - Sat Aug 28 22:36:22 2021                     ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition ;
 ; Revision Name                      ; VGAOSST                                                   ;
-; Top-level Entity Name              ; VGAOSST                                                   ;
+; Top-level Entity Name              ; VGA_CONTROLLER                                            ;
 ; Family                             ; Cyclone IV E                                              ;
-; Total logic elements               ; N/A until Partition Merge                                 ;
-;     Total combinational functions  ; N/A until Partition Merge                                 ;
-;     Dedicated logic registers      ; N/A until Partition Merge                                 ;
-; Total registers                    ; N/A until Partition Merge                                 ;
-; Total pins                         ; N/A until Partition Merge                                 ;
-; Total virtual pins                 ; N/A until Partition Merge                                 ;
-; Total memory bits                  ; N/A until Partition Merge                                 ;
-; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                                 ;
-; Total PLLs                         ; N/A until Partition Merge                                 ;
+; Total logic elements               ; 53                                                        ;
+;     Total combinational functions  ; 53                                                        ;
+;     Dedicated logic registers      ; 23                                                        ;
+; Total registers                    ; 23                                                        ;
+; Total pins                         ; 7                                                         ;
+; Total virtual pins                 ; 0                                                         ;
+; Total memory bits                  ; 0                                                         ;
+; Embedded Multiplier 9-bit elements ; 0                                                         ;
+; Total PLLs                         ; 0                                                         ;
 +------------------------------------+-----------------------------------------------------------+
 
 
@@ -60,7 +69,7 @@ https://fpgasoftware.intel.com/eula.
 ; Option                                                           ; Setting            ; Default Value      ;
 +------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                           ; EP4CE6E22C8        ;                    ;
-; Top-level entity name                                            ; VGAOSST            ; VGAOSST            ;
+; Top-level entity name                                            ; VGA_CONTROLLER     ; VGAOSST            ;
 ; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                            ; Off                ; Off                ;
 ; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
@@ -149,11 +158,151 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 16          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processors 2-16        ;   0.0%      ;
 +----------------------------+-------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                        ;
++----------------------------------+-----------------+------------------------------------+-------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path              ; Library ;
++----------------------------------+-----------------+------------------------------------+-------------------------------------------+---------+
+; VGA_controller.vhd               ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/VGA_controller.vhd ;         ;
+; VGA_CONTROLLER.bdf               ; yes             ; User Block Diagram/Schematic File  ; E:/GitHub Docs/VGAOSST/VGA_CONTROLLER.bdf ;         ;
++----------------------------------+-----------------+------------------------------------+-------------------------------------------+---------+
+
+
++-----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary               ;
++---------------------------------------------+-------------+
+; Resource                                    ; Usage       ;
++---------------------------------------------+-------------+
+; Estimated Total logic elements              ; 53          ;
+;                                             ;             ;
+; Total combinational functions               ; 53          ;
+; Logic element usage by number of LUT inputs ;             ;
+;     -- 4 input functions                    ; 19          ;
+;     -- 3 input functions                    ; 3           ;
+;     -- <=2 input functions                  ; 31          ;
+;                                             ;             ;
+; Logic elements by mode                      ;             ;
+;     -- normal mode                          ; 35          ;
+;     -- arithmetic mode                      ; 18          ;
+;                                             ;             ;
+; Total registers                             ; 23          ;
+;     -- Dedicated logic registers            ; 23          ;
+;     -- I/O registers                        ; 0           ;
+;                                             ;             ;
+; I/O pins                                    ; 7           ;
+;                                             ;             ;
+; Embedded Multiplier 9-bit elements          ; 0           ;
+;                                             ;             ;
+; Maximum fan-out node                        ; Clock~input ;
+; Maximum fan-out                             ; 23          ;
+; Total fan-out                               ; 224         ;
+; Average fan-out                             ; 2.49        ;
++---------------------------------------------+-------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                     ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+----------------+--------------+
+; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name             ; Entity Name    ; Library Name ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+----------------+--------------+
+; |VGA_CONTROLLER            ; 53 (0)              ; 23 (0)                    ; 0           ; 0            ; 0       ; 0         ; 7    ; 0            ; |VGA_CONTROLLER                 ; VGA_CONTROLLER ; work         ;
+;    |vga_timing:inst|       ; 53 (53)             ; 23 (23)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|vga_timing:inst ; vga_timing     ; work         ;
++----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------+----------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 23    ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 23    ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; vga_timing:inst|horizontal_sync_out    ; 1       ;
+; vga_timing:inst|vertical_sync_out      ; 1       ;
+; Total number of inverted registers = 2 ;         ;
++----------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output               ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------+
+; 3:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |VGA_CONTROLLER|vga_timing:inst|vcounter ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------+
+
+
++--------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: vga_timing:inst ;
++---------------------+-------+--------------------------------+
+; Parameter Name      ; Value ; Type                           ;
++---------------------+-------+--------------------------------+
+; horizontal_pixels   ; 640   ; Signed Integer                 ;
+; horizontal_fporch   ; 16    ; Signed Integer                 ;
+; horizontal_bporch   ; 48    ; Signed Integer                 ;
+; horizontal_sync     ; 96    ; Signed Integer                 ;
+; horizontal_sync_pol ; '0'   ; Enumerated                     ;
+; vertical_pixels     ; 480   ; Signed Integer                 ;
+; vertical_fporch     ; 10    ; Signed Integer                 ;
+; vertical_bporch     ; 33    ; Signed Integer                 ;
+; vertical_sync       ; 2     ; Signed Integer                 ;
+; vertical_sync_pol   ; '0'   ; Enumerated                     ;
++---------------------+-------+--------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 7                           ;
+; cycloneiii_ff         ; 23                          ;
+;     CLR               ; 23                          ;
+; cycloneiii_lcell_comb ; 57                          ;
+;     arith             ; 18                          ;
+;         2 data inputs ; 18                          ;
+;     normal            ; 39                          ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 4                           ;
+;         2 data inputs ; 11                          ;
+;         3 data inputs ; 3                           ;
+;         4 data inputs ; 19                          ;
+;                       ;                             ;
+; Max LUT depth         ; 6.00                        ;
+; Average LUT depth     ; 4.24                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
 
 
 +-------------------------------+
@@ -162,55 +311,37 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
-    Info: Processing started: Tue Aug 24 17:57:54 2021
+    Info: Processing started: Sat Aug 28 22:36:14 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off VGAOSST -c VGAOSST
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file vga_controller.vhd
+    Info (12022): Found design unit 1: vga_timing-display_size File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 46
+    Info (12023): Found entity 1: vga_timing File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 15
+Info (12021): Found 1 design units, including 1 entities, in source file horizontaltiming.bdf
+    Info (12023): Found entity 1: HORIZONTALTIMING
 Info (12021): Found 1 design units, including 1 entities, in source file bcdcounter.bdf
     Info (12023): Found entity 1: BCDCounter
-Info (12021): Found 1 design units, including 1 entities, in source file vgaosst.bdf
-    Info (12023): Found entity 1: VGAOSST
-Info (12127): Elaborating entity "VGAOSST" for the top level hierarchy
-Warning (275013): Port "CLK" of type SRFF and instance "inst18" is missing source signal
-Warning (275013): Port "CLK" of type SRFF and instance "inst19" is missing source signal
-Info (12128): Elaborating entity "BCDCounter" for hierarchy "BCDCounter:inst3"
-Error (12014): Net "H[9]", which fans out to "inst13[9]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[9]"
-    Error (12015): Net is fed by "BCDCounter:inst4|D1"
-Error (12014): Net "H[8]", which fans out to "inst13[8]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[8]"
-    Error (12015): Net is fed by "BCDCounter:inst4|D0"
-Error (12014): Net "H[7]", which fans out to "inst13[7]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[7]"
-    Error (12015): Net is fed by "BCDCounter:inst3|D3"
-Error (12014): Net "H[6]", which fans out to "inst13[6]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[6]"
-    Error (12015): Net is fed by "BCDCounter:inst3|D2"
-Error (12014): Net "H[5]", which fans out to "inst13[5]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[5]"
-    Error (12015): Net is fed by "BCDCounter:inst3|D1"
-Error (12014): Net "H[4]", which fans out to "inst15", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[4]"
-    Error (12015): Net is fed by "BCDCounter:inst3|D0"
-Error (12014): Net "H[3]", which fans out to "inst13[3]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[3]"
-    Error (12015): Net is fed by "BCDCounter:inst|D3"
-Error (12014): Net "H[2]", which fans out to "inst13[2]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[2]"
-    Error (12015): Net is fed by "BCDCounter:inst|D2"
-Error (12014): Net "H[1]", which fans out to "inst13[1]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[1]"
-    Error (12015): Net is fed by "BCDCounter:inst|D1"
-Error (12014): Net "H[0]", which fans out to "inst13[0]", cannot be assigned more than one value
-    Error (12015): Net is fed by "inst13[0]"
-    Error (12015): Net is fed by "BCDCounter:inst|D0"
-Error (12014): Net "gdfx_temp0", which fans out to "inst19", cannot be assigned more than one value
-    Error (12015): Net is fed by "Reset"
-    Error (12015): Net is fed by "inst16"
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 33 errors, 3 warnings
-    Error: Peak virtual memory: 4704 megabytes
-    Error: Processing ended: Tue Aug 24 17:58:00 2021
-    Error: Elapsed time: 00:00:06
-    Error: Total CPU time (on all processors): 00:00:15
+Info (12021): Found 1 design units, including 1 entities, in source file vga_controller.bdf
+    Info (12023): Found entity 1: VGA_CONTROLLER
+Info (12127): Elaborating entity "VGA_CONTROLLER" for the top level hierarchy
+Info (12128): Elaborating entity "vga_timing" for hierarchy "vga_timing:inst"
+Info (13000): Registers with preset signals will power-up high File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 35
+Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "Blank" is stuck at VCC
+    Warning (13410): Pin "Sync" is stuck at GND
+Info (286030): Timing-Driven Synthesis is running
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 72 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 2 input pins
+    Info (21059): Implemented 5 output pins
+    Info (21061): Implemented 65 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 4 warnings
+    Info: Peak virtual memory: 4850 megabytes
+    Info: Processing ended: Sat Aug 28 22:36:22 2021
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:17
 
 

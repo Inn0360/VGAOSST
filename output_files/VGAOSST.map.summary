@@ -1,14 +1,14 @@
-Analysis & Synthesis Status : Failed - Tue Aug 24 17:58:00 2021
+Analysis & Synthesis Status : Successful - Sat Aug 28 22:36:22 2021
 Quartus Prime Version : 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
 Revision Name : VGAOSST
-Top-level Entity Name : VGAOSST
+Top-level Entity Name : VGA_CONTROLLER
 Family : Cyclone IV E
-Total logic elements : N/A until Partition Merge
-    Total combinational functions : N/A until Partition Merge
-    Dedicated logic registers : N/A until Partition Merge
-Total registers : N/A until Partition Merge
-Total pins : N/A until Partition Merge
-Total virtual pins : N/A until Partition Merge
-Total memory bits : N/A until Partition Merge
-Embedded Multiplier 9-bit elements : N/A until Partition Merge
-Total PLLs : N/A until Partition Merge
+Total logic elements : 53
+    Total combinational functions : 53
+    Dedicated logic registers : 23
+Total registers : 23
+Total pins : 7
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0
