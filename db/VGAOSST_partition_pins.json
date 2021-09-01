@@ -4,19 +4,23 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "HSync",
+					"name" : "Red",
 					"strict" : false
 				},
 				{
-					"name" : "VsYNC",
+					"name" : "Green",
 					"strict" : false
 				},
 				{
-					"name" : "DisplayOn",
+					"name" : "Blue",
 					"strict" : false
 				},
 				{
-					"name" : "Clock",
+					"name" : "H_SYNC",
+					"strict" : false
+				},
+				{
+					"name" : "V_SYNC",
 					"strict" : false
 				},
 				{
