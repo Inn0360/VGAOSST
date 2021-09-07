@@ -19,7 +19,7 @@
 // the top level entity of the current Quartus project .The user can use this   
 // testbench to simulate his design using a third-party simulation tool .       
 // *****************************************************************************
-// Generated on "08/28/2021 22:32:04"
+// Generated on "09/04/2021 23:51:55"
                                                                                 
 // Verilog Test Bench (with test vectors) for design :                          VGA_CONTROLLER
 // 
@@ -30,43 +30,145 @@
 module VGA_CONTROLLER_vlg_vec_tst();
 // constants                                           
 // general purpose registers
-reg Clock;
-reg Reset;
+reg IN1;
+reg IN2;
+reg IN3;
+reg IN4;
+reg IN5;
+reg IN6;
+reg IN7;
+reg IN8;
 // wires                                               
-wire Blank;
-wire DisplayOn;
-wire HSync;
-wire Sync;
-wire VsYNC;
+wire 1;
+wire 2;
+wire 3;
+wire 4;
+wire 5;
+wire 6;
+wire 7;
+wire 8;
+wire 9;
+wire 10;
+wire 11;
+wire 12;
+wire 13;
+wire 14;
+wire 15;
+wire 16;
+wire 17;
+wire 18;
+wire 19;
+wire 20;
+wire 21;
+wire 22;
+wire 23;
+wire 24;
+wire 25;
+wire 26;
+wire 27;
+wire 28;
+wire 29;
+wire 30;
+wire 31;
 
 // assign statements (if any)                          
 VGA_CONTROLLER i1 (
 // port map - connection between master ports and signals/registers   
-	.Blank(Blank),
-	.Clock(Clock),
-	.DisplayOn(DisplayOn),
-	.HSync(HSync),
-	.Reset(Reset),
-	.Sync(Sync),
-	.VsYNC(VsYNC)
+	.\1 (1),
+	.\2 (2),
+	.\3 (3),
+	.\4 (4),
+	.\5 (5),
+	.\6 (6),
+	.\7 (7),
+	.\8 (8),
+	.\9 (9),
+	.\10 (10),
+	.\11 (11),
+	.\12 (12),
+	.\13 (13),
+	.\14 (14),
+	.\15 (15),
+	.\16 (16),
+	.\17 (17),
+	.\18 (18),
+	.\19 (19),
+	.\20 (20),
+	.\21 (21),
+	.\22 (22),
+	.\23 (23),
+	.\24 (24),
+	.\25 (25),
+	.\26 (26),
+	.\27 (27),
+	.\28 (28),
+	.\29 (29),
+	.\30 (30),
+	.\31 (31),
+	.IN1(IN1),
+	.IN2(IN2),
+	.IN3(IN3),
+	.IN4(IN4),
+	.IN5(IN5),
+	.IN6(IN6),
+	.IN7(IN7),
+	.IN8(IN8)
 );
 initial 
 begin 
 #1000000 $finish;
 end 
 
-// Clock
-always
-begin
-	Clock = 1'b0;
-	Clock = #10000 1'b1;
-	#10000;
-end 
-
-// Reset
+// IN1
 initial
 begin
-	Reset = 1'b1;
+	IN1 = 1'b0;
+	IN1 = #20000 1'b1;
+	IN1 = #80000 1'b0;
+end 
+
+// IN2
+initial
+begin
+	IN2 = 1'b0;
+	IN2 = #20000 1'b1;
+	IN2 = #80000 1'b0;
+end 
+
+// IN3
+initial
+begin
+	IN3 = 1'b0;
+end 
+
+// IN4
+initial
+begin
+	IN4 = 1'b0;
+end 
+
+// IN5
+initial
+begin
+	IN5 = 1'b0;
+end 
+
+// IN6
+initial
+begin
+	IN6 = 1'b0;
+end 
+
+// IN7
+initial
+begin
+	IN7 = 1'b0;
+end 
+
+// IN8
+initial
+begin
+	IN8 = 1'b0;
 end 
 endmodule
 
