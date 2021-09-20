@@ -21,7 +21,8 @@ entity bit_to_ascii is
                                                -- largest input: 0xFF (11111111)
         --write_ready: in    std_logic;          -- !!THIS NEEDS TO BE ADDED
         pixel_line_data:  out    std_logic_vector(7 downto 0);
-        increment      :  out    std_logic := '0'); -- Everytime it is output, outputs a 1
+        increment_reset:  in     std_logic;
+        increment      :  out    std_logic); -- Everytime it is output, outputs a 1
 
 end bit_to_ascii;
 
@@ -2221,34 +2222,44 @@ architecture pain of bit_to_ascii is
    
 begin
 
-    ascii: process(bit_in, clk, increment)
+    process(bit_in, clk, increment)
     variable track : integer;
     begin
         -- clock rising edge
-        if(clk'event and clk = '1' and increment = '0' ) THEN
-            increment <= '1';
+        if(clk'event and clk = '1'and notincrement) THEN
         -- if bit_in is within ascii range, then read
         -- else, ignore incase of random data
             if( bit_in<= 127) THEN
                 --tracker to print out all 16 pixel lines
-                track := bit_in * 16;
+                track := bit_in;
                 --for loop that repeats for 16 lines
-                for char_pos in 0 to 14 loop
+                for char_pos in 0 to 15 loop
                     -- turns off increment for next module (image loader)
-                    pixel_line_data <= ascii_pixel_info(track+1);
-                    report "one line done (" & to_hstring(ascii_pixel_info(track+1));
+                    increment <= '0';
+                    pixel_line_data <= ascii_pixel_info(track);
+
                     -- needs to read 16 lines from the first number
                     -- calculate actual starting position based off of 
                     track := track + 1;
-                    report "track" & integer'image(track);
+                    increment <= '1';
                 end loop;
-                report"One Char Done";
+            else
+                
+                null;
+            
             end if;
-            increment <= '0';
+        else
 
         end if;
 
-    end process ascii;
+    end process;
+        
+    incrementer : process(increment, increment_reset)
+        begin
+            if(increment_reset) then
+                increment <= '0';
+            end if;
+
 
 end pain ; -- arch
     
