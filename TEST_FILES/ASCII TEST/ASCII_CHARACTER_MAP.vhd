@@ -25,7 +25,7 @@ entity bit_to_ascii is
 
 end bit_to_ascii;
 
-architecture arch of bit_to_ascii is
+architecture pain of bit_to_ascii is
 
     --CONSTANTS GO HERE
     constant max_bit_ln:           integer  := 255;
@@ -2234,8 +2234,8 @@ begin
                 --for loop that repeats for 16 lines
                 for char_pos in 0 to 15 loop
                     -- turns off increment for next module (image loader)
-                    increment <= '0'
-                    pixel_line_data <= pixel_map(track)
+                    increment <= '0';
+                    pixel_line_data <= pixel_map(track);
 
                     -- needs to read 16 lines from the first number
                     -- calculate actual starting position based off of 
@@ -2255,5 +2255,5 @@ begin
     end process;
 
 
-end arch ; -- arch
+end pain ; -- arch
     
