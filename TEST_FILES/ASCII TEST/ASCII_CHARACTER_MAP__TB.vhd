@@ -9,17 +9,17 @@ use ieee.numeric_std.all;
 
 
 entity ascii_tb is 
-    --- i think i put what inputs i want the test bench to have
+
     port(
-        pixel_line_data:  out    std_logic_vector(7 downto 0));
+        pixel_line_data:  out    std_logic_vector(7 downto 0);
+        sending: out std_logic);
     
 end entity ascii_tb;
 
-architecture test of ascii_tb is
+architecture bench of ascii_tb is
     
-    signal clk       : std_logic := '0';
+    signal clk       : std_logic := '1';
     signal bit_in    : integer   := 0  ; 
-    signal increment: std_logic; 
 
     component bit_to_ascii
          port(
@@ -29,7 +29,7 @@ architecture test of ascii_tb is
                                                    -- largest input: 0xFF (11111111)
             --write_ready: in    std_logic;    2      -- !!THIS NEEDS TO BE ADDED
             pixel_line_data:  out    std_logic_vector(7 downto 0);
-            increment      :  out    std_logic); -- Everytime it is output, outputs a 1
+            sending : out  std_logic);
             
     end component;
     
@@ -37,11 +37,10 @@ architecture test of ascii_tb is
 
         dut : bit_to_ascii
             port map(
-
                 clk => clk,
                 bit_in => bit_in,
                 pixel_line_data => pixel_line_data,
-                increment => increment);
+                sending => sending);
 
         clock :process
             begin
@@ -51,20 +50,17 @@ architecture test of ascii_tb is
 
         in_integer : process
             begin
-		        wait for 10 ns;
-
+                    wait for 36 ns;
                     if(bit_in = 127) then
                         bit_in <= 0;
-                    end if;
-                    wait for 20 ns;
+                    end if; 
              
                     bit_in <= bit_in + 1;
-         
             
                 
         end process in_integer;
 
-end test;
+end bench;
         
 
 

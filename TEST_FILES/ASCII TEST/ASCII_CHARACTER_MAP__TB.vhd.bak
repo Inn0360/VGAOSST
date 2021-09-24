@@ -9,7 +9,7 @@ use ieee.numeric_std.all;
 
 
 entity ascii_tb is 
-    --- i think i put what inputs i want the test bench to have
+
     port(
         pixel_line_data:  out    std_logic_vector(7 downto 0));
     
@@ -19,8 +19,6 @@ architecture test of ascii_tb is
     
     signal clk       : std_logic := '0';
     signal bit_in    : integer   := 0  ; 
-    signal increment_reset: std_logic := '0';
-    signal increment: std_logic := '1'; 
 
     component bit_to_ascii
          port(
@@ -29,9 +27,7 @@ architecture test of ascii_tb is
                                                    -- smallest input: 0x00 (00000000) 
                                                    -- largest input: 0xFF (11111111)
             --write_ready: in    std_logic;    2      -- !!THIS NEEDS TO BE ADDED
-            pixel_line_data:  out    std_logic_vector(7 downto 0);
-            increment      :  out    std_logic; -- Everytime it is output, outputs a 1
-            increment_reset:  in     std_logic);
+            pixel_line_data:  out    std_logic_vector(7 downto 0));
             
     end component;
     
@@ -39,35 +35,25 @@ architecture test of ascii_tb is
 
         dut : bit_to_ascii
             port map(
-
                 clk => clk,
                 bit_in => bit_in,
-                pixel_line_data => pixel_line_data,
-                increment => increment,
-                increment_reset => increment_reset);
+                pixel_line_data => pixel_line_data);
 
         clock :process
             begin
-                wait for 10 ns; 
+                wait for 1 ns; 
                 clk <= not clk;
         end process clock;
 
         in_integer : process
             begin
-                report "Out Here";
-                if(increment) then
-                    report "In here";
-                    increment_reset <= '1';
+                    wait 16 ns;
                     if(bit_in = 127) then
                         bit_in <= 0;
-                    end if;
-                    wait for 20 ns;
+                    end if; 
+             
                     bit_in <= bit_in + 1;
-                else if(increment_reset) then
-                    increment_reset <= '0';
-                end if;
-                end if;
-                wait 10 ns;
+            
                 
         end process in_integer;
 

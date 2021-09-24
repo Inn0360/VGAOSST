@@ -21,7 +21,7 @@ entity bit_to_ascii is
                                                -- largest input: 0xFF (11111111)
         --write_ready: in    std_logic;          -- !!THIS NEEDS TO BE ADDED
         pixel_line_data:  out    std_logic_vector(7 downto 0);
-        increment      :  out    std_logic := '0'); -- Everytime it is output, outputs a 1
+        sending: out std_logic);
 
 end bit_to_ascii;
 
@@ -2217,38 +2217,63 @@ architecture pain of bit_to_ascii is
    "00000000"  -- f
    );
 
+signal print       : std_logic := '0';
+signal arrayElementInitial: integer := 0;
+signal track       :integer := 0;
 
-   
 begin
+-- CLOCK SPEED OF THIS MODULE NEEDS TO BE 16 TIMES FASTER THAN WHAT IS BEING INPUTTED
 
-    ascii: process(bit_in, clk, increment)
-    variable track : integer;
+    -- Process
+    -- Take incoming integer, then calculate ( mulitiply by 16)
+    -- have a counter
+    -- need a locking variable to stop code from running
+    -- Links process into proper element in array
+    
+    
+    intake: process(clk)
+
     begin
-        -- clock rising edge
-        if(clk'event and clk = '1' and increment = '0' ) THEN
-            increment <= '1';
-        -- if bit_in is within ascii range, then read
-        -- else, ignore incase of random data
-            if( bit_in<= 127) THEN
-                --tracker to print out all 16 pixel lines
-                track := bit_in * 16;
-                --for loop that repeats for 16 lines
-                for char_pos in 0 to 14 loop
-                    -- turns off increment for next module (image loader)
-                    pixel_line_data <= ascii_pixel_info(track+1);
-                    report "one line done (" & to_hstring(ascii_pixel_info(track+1));
-                    -- needs to read 16 lines from the first number
-                    -- calculate actual starting position based off of 
-                    track := track + 1;
-                    report "track" & integer'image(track);
-                end loop;
-                report"One Char Done";
+        if(clk'event and clk ='1') then 
+     
+            if(track = 16 and print = '1') then
+                print <= '0';
+                report"reset intake";
+                sending <= '0';
+            elsif (print = '1') then
+                    sending <= '1';
+            elsif (print = '0') then
+                if(bit_in <= 127) then
+                    print <= '1';
+                    arrayElementInitial <= bit_in * 16;
+                    report "ArrayElement Set" & std_logic'image(print);
+                end if;
             end if;
-            increment <= '0';
-
         end if;
+    end process intake;
 
-    end process ascii;
+    
+    output: process (clk)
+    variable arrayElement: integer:=0;
+    begin
+        if(clk'event and clk ='1') then 
+            if(track = 16 and print ='0') then
+                report" reset output";
+                    track <= 0;
+            end if;
+            
+            if (print = '1' and track < 16) then 
+                arrayElement := arrayElementInitial + track;
+                report("INITIALELEMENT" & integer'image(arrayElement));
+                pixel_line_data <= ascii_pixel_info(arrayElement);
+                report "one line done ( " & to_hstring(ascii_pixel_info(arrayElement));
+                track <= track + 1;
+                report "track" & integer'image(track);
+
+            
+            end if;
+        end if;
+    end process output;
 
 end pain ; -- arch
     
