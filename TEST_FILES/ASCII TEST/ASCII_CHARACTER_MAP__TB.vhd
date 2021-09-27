@@ -56,7 +56,6 @@ architecture bench of ascii_tb is
                     end if; 
              
                     bit_in <= bit_in + 1;
-            
                 
         end process in_integer;
 
