@@ -21,7 +21,7 @@ entity bit_to_ascii is
                                                -- largest input: 0xFF (11111111)
         --write_ready: in    std_logic;          -- !!THIS NEEDS TO BE ADDED
         pixel_line_data:  out    std_logic_vector(7 downto 0);
-        sending: out std_logic);
+        sending:          out    std_logic);
 
 end bit_to_ascii;
 

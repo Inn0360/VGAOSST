@@ -5,6 +5,7 @@
 -- Also detectes/intercepts for specical characters
 
 --Input
+-- Sending Command (When send command is sent, only then start reading)
 -- Pixel_data_in : std_logic_vector(7 downto 0)
 -- Horizontal counter in: integer
 -- Vertical counter in: integer
@@ -34,10 +35,29 @@ use ieee.numeric_std.all;
 
 entity mem_add_conv is 
     port(
+        --input
+        in_send:        in    std_logic;
+        in_pixel_data:  in    std_logic_vector;
+        in_horiz_count: in    integer;
+        in_verti_count  in    integer);
 
-
-
+        --output (To be decided)
     )
+end entity mem_add_conv;
+
+architecture beep of mem_add_conv is 
+
+    --constants go here
+begin
+
+    start: process(sending)
+        begin
+            if(sending = '1') then
+                -- when it detects back space character, only move the cursor
+                case in_pixel_data is
+                    when "10101010" => 
+
+        
 
 
 
