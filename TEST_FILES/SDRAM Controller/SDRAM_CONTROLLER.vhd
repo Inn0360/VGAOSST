@@ -24,6 +24,17 @@
 -- One address can save 16 bits
 -- each character takes 8 addresses ()???? o dont think thats right
 
+-- Process
+-- Idle (Maybe sending Refresh command here)
+-- Select Row/Bank
+-- Select Column
+-- Write/Read
+-- Close Row
+
+--(Need to think where I need to be refreshing)
+
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
