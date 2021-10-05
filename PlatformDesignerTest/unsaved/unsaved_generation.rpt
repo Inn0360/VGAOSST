@@ -1,0 +1,24 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate "E:\GitHub Docs\VGAOSST\PlatformDesignerTest\unsaved.qsys" --synthesis=VHDL --output-directory="E:\GitHub Docs\VGAOSST\PlatformDesignerTest\unsaved\synthesis" --family="Cyclone IV E" --part=EP4CE6E22C8
+Progress: Loading PlatformDesignerTest/unsaved.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 20.1]
+Progress: Parameterizing module clk_0
+Progress: Adding new_sdram_controller_0 [altera_avalon_new_sdram_controller 20.1]
+Progress: Parameterizing module new_sdram_controller_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: unsaved.new_sdram_controller_0: SDRAM Controller will only be supported in Quartus Prime Standard Edition in the future release.
+Warning: unsaved.new_sdram_controller_0: new_sdram_controller_0.wire must be exported, or connected to a matching conduit.
+Warning: unsaved.new_sdram_controller_0: new_sdram_controller_0.s1 must be connected to an Avalon-MM master
+Info: unsaved: Generating unsaved "unsaved" for QUARTUS_SYNTH
+Info: new_sdram_controller_0: Starting RTL generation for module 'unsaved_new_sdram_controller_0'
+Info: new_sdram_controller_0:   Generation command is [exec C:/apps/quartus/quartus/bin64/perl/bin/perl.exe -I C:/apps/quartus/quartus/bin64/perl/lib -I C:/apps/quartus/quartus/sopc_builder/bin/europa -I C:/apps/quartus/quartus/sopc_builder/bin -I C:/apps/quartus/quartus/../ip/altera/sopc_builder_ip/common -I C:/apps/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- C:/apps/quartus/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=unsaved_new_sdram_controller_0 --dir=C:/Users/HOWINT~1/AppData/Local/Temp/alt8902_8520670390467954247.dir/0002_new_sdram_controller_0_gen/ --quartus_dir=C:/apps/quartus/quartus --verilog --config=C:/Users/HOWINT~1/AppData/Local/Temp/alt8902_8520670390467954247.dir/0002_new_sdram_controller_0_gen//unsaved_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]
+Info: new_sdram_controller_0: Done RTL generation for module 'unsaved_new_sdram_controller_0'
+Info: new_sdram_controller_0: "unsaved" instantiated altera_avalon_new_sdram_controller "new_sdram_controller_0"
+Info: rst_controller: "unsaved" instantiated altera_reset_controller "rst_controller"
+Info: unsaved: Done "unsaved" with 3 modules, 5 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="79" />
+   <irq preferredWidth="34" />
+   <name preferredWidth="293" />
+  </columns>
+ </systemtable>
+ <library
+   expandedCategories="Library/Basic Functions/DMA,Library/Basic Functions/DMA/mSGDMA Sub-core,Library/Basic Functions/Simulation; Debug and Verification,Library/Basic Functions/Bridges and Adaptors,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Library/Processors and Peripherals/Peripherals,Library/Qsys Interconnect/Memory-Mapped,Library/Basic Functions/Bridges and Adaptors/Streaming,Library/Processors and Peripherals/Co-Processors,Library/Qsys Interconnect,Library/Basic Functions/Simulation; Debug and Verification/Simulation,Library/Interface Protocols/Serial,Library/Processors and Peripherals,Project,Library/Interface Protocols,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Basic Functions,Library/Processors and Peripherals/Co-Processors/Nios II Custom Instructions,Library" />
+ <window width="1566" height="923" x="517" y="198" />
+ <generation block_symbol_file="0" synthesis="VHDL" />
+</preferences>
