@@ -38,8 +38,7 @@ entity ascii_interpreter is
         --Vertical can only go up to a max of 30
         out_horiz_count:  out    integer:= 0;
         out_vert_count:   out    integer:= 0;
-        out_ascii:        out    integer:= 0;
-    );
+        out_ascii:        out    integer:= 0);
 
 end ascii_interpreter;
 
@@ -88,7 +87,7 @@ architecture ticktock of ascii_interpreter is
 
     limitCheckVert: process(increment_flag)
         begin
-         case temp_vertical is
+        case temp_vertical is
             when 0 to 30 => out_vert_count <= temp_vertical;
             when others => out_vert_count <= 0;
         end case;

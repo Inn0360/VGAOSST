@@ -1,4 +1,6 @@
 --Author: Howin Tam
+--- TOTAL MEMORY THAT WE WILL BE USING
+--- 640 X 480 BITS = 307200
 
 
 -- File Purpose: SDRAM Controller for Cyclone IV OMDAZZ Board
@@ -21,39 +23,47 @@
 -- Accessing RAM
 -- Select Bank, Select Row, then Select which Column
 
-
 -- One address can save 16 bits
 -- each character takes 8 addresses ()???? o dont think thats right
+
+-- Process
+-- Idle (Maybe sending Refresh command here)
+-- Select Row/Bank
+-- Select Column
+-- Write/Read
+-- Close Row
+
+--MEMORY ADDRESS INPUT
+-- 000000000000 00000000
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-
 entity sdram_controller is
-    generic(
-        data_line:     std_logic_vector(15 downto 0);
-    )
-
+ 
     port(
         clk_in:         in      std_logic;
-        -- Reading Data
+        clk_out:        out     std_logic;        
+        -- Reading Data (Wired to Reader)
         read_rq:        in      std_logic;
         read_grant:     out     std_logic;
         read_data:      out     std_logic_vector(7 downto 0);
-        read_address:   in      std_logic(8 downto 0);
+        read_address:   in      std_logic_vector(29 downto 0);
         
-        --Write Data
+        --Write Data ( Wired to Position to COunter Module)
         write_rq:       in     std_logic;
         write_grant:    out    std_logic;
-        write_address:  in     std_logic;
         write_data:     in     std_logic_vector(7 downto 0));
+        write_address:  in     std_logic_vector(29 downto 0);
+
 
         --SDRAM Control
         --Select Bank
-        bank_addr0:     out    std_logic_vector(0 to 1);
+        bank_addr0:     out    std_logic_vector(0 to 1):='00';
         -- Address
-        addr_bus:       out    std_logic_vector(0 to 11);;
+        addr_bus:       out    std_logic_vector(0 to 11);
+        clk_en:         out    std_logic;
         
         --Row, Column, Write Select
         --chip select
@@ -64,14 +74,127 @@ entity sdram_controller is
         write_en:       out    std_logic;
         chip_sel:       out    std_logic;
 
-
+        --BANK SHOULD ONLY NEED TO BE 1.
     end sdram_controller;
 
 architecture arch of sdram_controller is 
-    signal write_request: std_logic;
+    -- writing/reading flags
+    signal read_true:         std_logic:= '0';
+    signal write_true:        std_logic:= '0';
+    signal read_done:         std_logic:= '0';
+    signal write_done:        std_logic:= '0';
+    signal mem_col_read:      std_logic:= '0';
+    signal mem_col_write:      std_logic:= '0';
 
-
+    alias  row_addr:      std_logic_vector is addr_bus(19 downto 8) 
+    alias  column_addr:   std_logic_vector is addr_bus(7 downto 0)
     begin
+
+        --Start SDRAM Controller in Idle Mode
+        -- Here the SDRAM Controller is waiting for a read/write request
+        -- Read requests take priority, but will wait if a write request is in progress
+        -- System will have to use rising clock ( based on SDRAM CHIP)
+
+        --!!! THERE MAYBE TIMING ERRORS IF READING HAS TO WAIT FOR WRITING TO FINISH
+
+        -- synchronises the clock with the SDRAM Controller
+        clk_passthrough : process(clk_in)
+        begin
+            if(clk_in'event and clk_in = '1') then
+                clk_out <= not clk_out;
+        end process clk_passthrough;
+
+        idle: process(clk_in)
+        begin  
+            if(clk_in'event and clk_in = '1') then
+                -- check if read request or write request has been flagged (read priority)
+                -- Resets value once it identifies that the system is done reading/writing
+                if (read_done or write_done = '1') then
+                    read_grant <= '0';
+                    write_grant<= '0';
+                else
+                    --- THIS NEEDS TO BE CHANGED AGAIN SO THAT IT MAKES SENSE WITH MEMORY SELECT PROCESS
+                    if (read_grant or write_grant = '1') then
+                        null;
+                    else 
+                        case read_rq is
+                            when '1' => 
+                                read_grant <= '1';
+                            when others => null;            
+                        end case;
+
+                        if(read_true = '0') then
+                            case write_rq is 
+                                when '1' => 
+                                    write_grant <= '1';
+                                when others => null;
+                            end case;
+                        end if;
+                    end if;
+        end process idle;
+        
+        memory_select_row: process(read_grant,write_grant)
+        begin
+            --only starts if at least one of the values is true
+            if(read_grant or write_grant = '1') then
+                -- get bank location, row address, write to SDRAM
+                ---converting Memory address to row address
+                addr_bus <= row_addr;
+                row_sel <= 1;
+
+                if(read_grant = '1') then
+                    mem_col_read <= not mem_col_read;
+                else
+                    mem_col_write <= not mem_col_write;
+                end if;
+                
+            end if;
+
+        end process memory_select_row
+
+
+        memory_select_column: process(mem_col_read, mem_col_write)
+        begin
+            row_sel <= '0';
+            col_sel <= '1'
+            if(read_true) then
+                
+            elsif (write_true) then
+                write_en <= '1';
+
+            end if;
+
+        
+        
+        
+        -- starts as long as read_true is changed
+        read : process(read_true)
+        begin
+            read_done <= '0';
+
+        end process read;
+
+        -- starts as long as read_true is changed
+        write: process(write_true)
+        begin
+            write_done <= '0';
+
+
+
+        end process write;
+
+        
+        
+
+
+
+
+
+
+
+
+
+
         --Initalise SDRAM Chip
         
         bank_addr0 <= "00";
