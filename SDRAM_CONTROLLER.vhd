@@ -65,16 +65,12 @@ entity sdram_controller is
         addr_bus:       out    std_logic_vector(0 to 11);
         clk_en:         out    std_logic;
         
-        --Row, Column, Write Select
-        --chip select
-        -- THESE PINS ARE INVERTED
-
         row_sel:        out    std_logic;
         col_sel:        out    std_logic;
         write_en:       out    std_logic;
         chip_sel:       out    std_logic;
 
-        --BANK SHOULD ONLY NEED TO BE 1.
+        data_inout:    inout std_logic(15 down to 0);
     end sdram_controller;
 
 architecture arch of sdram_controller is 
@@ -86,6 +82,7 @@ architecture arch of sdram_controller is
     signal mem_col_read:      std_logic:= '0';
     signal mem_col_write:      std_logic:= '0';
 
+    signal reset:             std_logic:= '0';
     alias  row_addr:      std_logic_vector is addr_bus(19 downto 8) 
     alias  column_addr:   std_logic_vector is addr_bus(7 downto 0)
     begin
@@ -96,6 +93,7 @@ architecture arch of sdram_controller is
         -- System will have to use rising clock ( based on SDRAM CHIP)
 
         --!!! THERE MAYBE TIMING ERRORS IF READING HAS TO WAIT FOR WRITING TO FINISH
+-----------------------------------------------------------------------------
 
         -- synchronises the clock with the SDRAM Controller
         clk_passthrough : process(clk_in)
@@ -103,7 +101,7 @@ architecture arch of sdram_controller is
             if(clk_in'event and clk_in = '1') then
                 clk_out <= not clk_out;
         end process clk_passthrough;
-
+-----------------------------------------------------------------------------
         idle: process(clk_in)
         begin  
             if(clk_in'event and clk_in = '1') then
@@ -112,8 +110,11 @@ architecture arch of sdram_controller is
                 if (read_done or write_done = '1') then
                     read_grant <= '0';
                     write_grant<= '0';
+                    reset <= '1';
                 else
-                    --- THIS NEEDS TO BE CHANGED AGAIN SO THAT IT MAKES SENSE WITH MEMORY SELECT PROCESS
+                    --- possible that write will never be executed because read is priority
+                    reset <= '0';
+                    
                     if (read_grant or write_grant = '1') then
                         null;
                     else 
@@ -132,6 +133,7 @@ architecture arch of sdram_controller is
                         end if;
                     end if;
         end process idle;
+-----------------------------------------------------------------------------
         
         memory_select_row: process(read_grant,write_grant)
         begin
@@ -150,51 +152,57 @@ architecture arch of sdram_controller is
                 
             end if;
 
-        end process memory_select_row
-
-
-        memory_select_column: process(mem_col_read, mem_col_write)
+        end process memory_select_row;
+-----------------------------------------------------------------------------
+        memory_select_column: process(mem_col_read, mem_col_write,reset)
         begin
-            row_sel <= '0';
-            col_sel <= '1'
-            if(read_true) then
+            if (reset ='1') then
+                read_true <= '0';
+                write_true <= '0';
+                write_en <= '0';
+            else
+                row_sel <= '0';
+                write_en <= '0';
+                col_sel <= '1'
+                if(mem_col_read) then
+                    read_true <= '1';
+                elsif (mem_cool_write) then
+                    write_en <= '1';
+                    write_true <= '1';
+                end if;
+                ---- resets to known state before only sending column info
+                addr_bus <= '000000000000'
+                addr_bus(7 downto 0) <= column_addr;
+            end if;
+        end process memory_select_column;
+-----------------------------------------------------------------------------
+        -- starts as long as read_true is changed
+        read : process(read_true, reset)
+        begin
+            if (reset = '1') then
+                read_done <= '0';
+                read_data <= '00000000'
+            else
+                read_data <= data_inout
+
+
+            end if;
+        end process read;
+-----------------------------------------------------------------------------
+
+        -- starts as long as read_true is changed
+        write: process(write_true,reset)
+        begin
+            if(reset ='1') then
                 
-            elsif (write_true) then
-                write_en <= '1';
+                write_done <= '0';
+            else
 
             end if;
 
-        
-        
-        
-        -- starts as long as read_true is changed
-        read : process(read_true)
-        begin
-            read_done <= '0';
-
-        end process read;
-
-        -- starts as long as read_true is changed
-        write: process(write_true)
-        begin
-            write_done <= '0';
-
-
 
         end process write;
-
-        
-        
-
-
-
-
-
-
-
-
-
-
+-----------------------------------------------------------------------------
         --Initalise SDRAM Chip
         
         bank_addr0 <= "00";
