@@ -76,9 +76,12 @@ entity sdram_controller is
 
 architecture arch of sdram_controller is 
     -- writing/reading flags
-    signal currentState:      integer:= 0;
+    signal current_state:      integer:= 0;
     signal initialisation:    integer:= '1';
-    signal bootup:            std_logic:= '0';
+    signal boot_up:            std_logic:= '0';
+    signal idle_trigger:       std_logic:= '0';
+
+
     signal read_true:         std_logic:= '0';
     signal write_true:        std_logic:= '0';
     signal read_done:         std_logic:= '0';
@@ -91,14 +94,13 @@ architecture arch of sdram_controller is
     alias  column_addr:   std_logic_vector is addr_bus(7 downto 0);
     begin
         -- Only runs at boot up
-        initalise: process(bootup)
-        variable Clock_Delay:   integer:= 0;
+        initialise: process(bootup)
+        variable clock_delay:   integer:= 0;
         begin
             if(clk_in'event and clk_in = '1') then
-                if(Clock_Delay > 0) then
-                    Clock_Delay:= Clock_Delay - 1;
+                if(clock_delay > 0) then
+                    clock_delay:= Clock_Delay - 1;
                     chip_sel <= '1'; -- Disables all inputs as the memory is processing the commands
-
                 else
                     case initialisation is
                         when 1 =>
@@ -110,47 +112,56 @@ architecture arch of sdram_controller is
                             --DQM Doesnt matter
                             addr_bus(9) <= '1'; -- A10
                             initialisation <= 2;
-                            Clock_Delay := 2;
+                            clock_delay := 2;
                         when 2 =>
                             --Auto Refresh (3 Clock Cycles + 1)
                             write_en <= '1';
-                            Clock_Delay := 4;
+                            clock_delay := 4;
                             intialisation <= 3;
                         when 3 =>
                             --Auto Refresh (3 Clock Cycles)
-                            Clock_Delay := 3;
+                            clock_delay := 3;
                             intialisation <= 4;
                         when 4 =>
                             -- Program Mode Register(2 Clock Cycles + 1)
                             bank_addr <= "00";
                             addr_bus <= "001000110000";
-                            Clock_Delay := 2;
+                            clock_delay := 2;
                             initialisation <= 5;
                         when others =>
                             null;
                     end case;
                 end if;
-
-
+            end if;
+        end process initialise;
 
         --Main Process is here
         default : process(clk_in)
+        refresh_cycles_left:  integer:= 0;
+        write_accept:        std_logic:= 0;
+        read_accept:         std_logic:= 0;
         begin
             if(clk_in'event and clk_in = '1') then
-                if(currentState = 0) then
-                    if(initialisation < 5) then
-                        bootup <= not bootup;
-                    else
-                        currentState <= 1;
-                    end if;
+                case current_state is 
+                    when 0 =>
+                        if(initialisation < 5) then
+                            boot_up <= not boot_up;
+                        else
+                            current_state <= 1;
+                        end if;
+                    when 1 =>
+                            -- THIS LOGIC HERE MAY NOT BE RIGHT, BUT WILL BE PLACED HERE FOR NOW
+                        if(read_rq = '1') then
+                            -- Go to Row State here
+                            read_accept:= '1';
+                        elsif(write_rq = '1') then
+                            write_accept::= '1';
+                            case refresh_cycles_left is
+                                when 
+                            -- go to Idle State here
 
-                elsif(currentState = 1) then
-                    if(read_rq or write_rq = '1') then
-                        -- Go to Row State here
-                    else
-                        -- go to Idle State here
-                    end if;
-                end if;
+                        end if;
+                end case;
             -- First Checks for Initialisation
             -- Then goes to Idle state
             -- If request is triggered, then go to Row State, where it then goes to column state
@@ -159,16 +170,7 @@ architecture arch of sdram_controller is
             -- then 
             end if;
         end process default;
-        
-
-
-
-
-        
-        
-        
-        
-        
+                
         --Start SDRAM Controller in Idle Mode
         -- Here the SDRAM Controller is waiting for a read/write request
         -- Read requests take priority, but will wait if a write request is in progress
@@ -184,9 +186,37 @@ architecture arch of sdram_controller is
             end if;
         end process clk_passthrough;
 -----------------------------------------------------------------------------
-        idle: process(clk_in)
+        idle: process(idle_trigger)
         begin  
             if(clk_in'event and clk_in = '1') then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 -- check if read request or write request has been flagged (read priority)
                 -- Resets value once it identifies that the system is done reading/writing
                 if (read_done or write_done = '1') then
@@ -218,7 +248,6 @@ architecture arch of sdram_controller is
             end if;
         end process idle;
 -----------------------------------------------------------------------------
-        
         memory_select_row: process(read_grant,write_grant)
         begin
             --only starts if at least one of the values is true
