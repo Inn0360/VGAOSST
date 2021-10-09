@@ -50,27 +50,24 @@ entity sdram_controller is
         read_grant:     out     std_logic;
         read_data:      out     std_logic_vector(7 downto 0);
         read_address:   in      std_logic_vector(29 downto 0);
-        
-        --Write Data ( Wired to Position to COunter Module)
-        write_rq:       in     std_logic;
-        write_grant:    out    std_logic;
-        write_data:     in     std_logic_vector(7 downto 0));
-        write_address:  in     std_logic_vector(29 downto 0);
-
-
+        --Write Data ( Wired to Position to Counter Module)
+        write_rq:       in      std_logic;
+        write_grant:    out     std_logic;
+        write_data:     in      std_logic_vector(7 downto 0);
+        write_address:  in      std_logic_vector(29 downto 0);
         --SDRAM Control
         --Select Bank
-        bank_addr0:     out    std_logic_vector(0 to 1):='00';
+        bank_addr0:     out     std_logic_vector(0 to 1) := "00";
         -- Address
-        addr_bus:       out    std_logic_vector(0 to 11);
-        clk_en:         out    std_logic;
+        addr_bus:       out     std_logic_vector(0 to 11);
+        clk_en:         out     std_logic;
         
-        row_sel:        out    std_logic;
-        col_sel:        out    std_logic;
-        write_en:       out    std_logic;
-        chip_sel:       out    std_logic;
+        row_sel:        out     std_logic;
+        col_sel:        out     std_logic;
+        write_en:       out     std_logic;
+        chip_sel:       out     std_logic;
 
-        data_inout:    inout std_logic(15 down to 0);
+        data_inout:    inout std_logic_vector(15 downto 0));
     end sdram_controller;
 
 architecture arch of sdram_controller is 
@@ -80,26 +77,50 @@ architecture arch of sdram_controller is
     signal read_done:         std_logic:= '0';
     signal write_done:        std_logic:= '0';
     signal mem_col_read:      std_logic:= '0';
-    signal mem_col_write:      std_logic:= '0';
+    signal mem_col_write:     std_logic:= '0';
 
     signal reset:             std_logic:= '0';
-    alias  row_addr:      std_logic_vector is addr_bus(19 downto 8) 
-    alias  column_addr:   std_logic_vector is addr_bus(7 downto 0)
+    alias  row_addr:          std_logic_vector is addr_bus(19 downto 8); 
+    alias  column_addr:       std_logic_vector is addr_bus(7 downto 0);
     begin
-
         --Start SDRAM Controller in Idle Mode
         -- Here the SDRAM Controller is waiting for a read/write request
         -- Read requests take priority, but will wait if a write request is in progress
         -- System will have to use rising clock ( based on SDRAM CHIP)
 
         --!!! THERE MAYBE TIMING ERRORS IF READING HAS TO WAIT FOR WRITING TO FINISH
------------------------------------------------------------------------------
 
-        -- synchronises the clock with the SDRAM Controller
+        -- Start by Precharging all banks
+------------------------------------------------------------------------
+--Initialisation Phase
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+-- Auto refresh phase
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+        -- passthrough the clock with the SDRAM 
         clk_passthrough : process(clk_in)
         begin
             if(clk_in'event and clk_in = '1') then
                 clk_out <= not clk_out;
+            end if;
         end process clk_passthrough;
 -----------------------------------------------------------------------------
         idle: process(clk_in)
@@ -132,6 +153,8 @@ architecture arch of sdram_controller is
                             end case;
                         end if;
                     end if;
+                end if;
+            end if;
         end process idle;
 -----------------------------------------------------------------------------
         
@@ -163,7 +186,7 @@ architecture arch of sdram_controller is
             else
                 row_sel <= '0';
                 write_en <= '0';
-                col_sel <= '1'
+                col_sel <= '1';
                 if(mem_col_read) then
                     read_true <= '1';
                 elsif (mem_cool_write) then
@@ -171,7 +194,7 @@ architecture arch of sdram_controller is
                     write_true <= '1';
                 end if;
                 ---- resets to known state before only sending column info
-                addr_bus <= '000000000000'
+                addr_bus <= "000000000000";
                 addr_bus(7 downto 0) <= column_addr;
             end if;
         end process memory_select_column;
@@ -181,80 +204,25 @@ architecture arch of sdram_controller is
         begin
             if (reset = '1') then
                 read_done <= '0';
-                read_data <= '00000000'
+                read_data <= "00000000";
             else
-                read_data <= data_inout
-
-
+                read_data <= data_inout(7 downto 0);
             end if;
         end process read;
 -----------------------------------------------------------------------------
-
         -- starts as long as read_true is changed
         write: process(write_true,reset)
         begin
             if(reset ='1') then
-                
                 write_done <= '0';
+                write_data <= "00000000";
             else
-
+                write_data <= data_inout(7 downto 0);
             end if;
-
 
         end process write;
 -----------------------------------------------------------------------------
-        --Initalise SDRAM Chip
-        
-        bank_addr0 <= "00";
-        addr_bus <= "001000100011"
-        
+-- Precharge Commands in order to close
 
-        --State Machine to check whether requests are present
-        if(clk_in'event and clk_in = '1') then
-            if(write_rq ='1' or read_rq = '1') then
-                write_request <= '1';
-                -- set bank address
-                bank_addr0 <= "00";
-                chip_sel <= '0';
-                row_sel  <= '0';
-                col_sel  <- '1';
-                write_en <= '1';
-                --I NEED TO GIVE ROW DATA HERE
-                addr_bus <= "000000000000"
-
-            if( write_rq = '1') then
-                write_request <= '1;
-                bank_addr0 <= "00";
-                chip_sel <= '0';
-                row_sel  <= '1';
-                col_sel  <- '0';
-                write_en <= '0';
-                -- I NEED TO GIVE COLUMN DATA HERE
-                addr_bus <= "000000000000"
-
-            end if;
-
-
-
-            end if;
-
-            --set sdram to write
-            
-            
-
-            
-
-
-
-
-        -- Force read request to wait
-
-
-        --State Machine
-            --Idle _> Checking for any active requests
-            --> Checks for write requests first, then read requests
-
-
-    -- actual things go here
-
+end arch;
 

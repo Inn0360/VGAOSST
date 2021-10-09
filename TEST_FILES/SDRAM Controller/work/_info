@@ -1,0 +1,33 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/GitHub Docs/VGAOSST/TEST_FILES/SDRAM Controller
+Esdram_controller
+w1633690942
+DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 3
+R0
+8E:/GitHub Docs/VGAOSST/TEST_FILES/SDRAM Controller/SDRAM_CONTROLLER.vhd
+FE:/GitHub Docs/VGAOSST/TEST_FILES/SDRAM Controller/SDRAM_CONTROLLER.vhd
+l0
+L43 1
+V7^g:Q`7nNEFOUHLH;0RXW3
+!s100 Hb=iiTJD2DOnYQEll]HOF1
+OV;C;2020.1;71
+33
+!s110 1633691035
+!i10b 1
+!s108 1633691035.000000
+!s90 -reportprogress|300|-work|work|E:/GitHub Docs/VGAOSST/TEST_FILES/SDRAM Controller/SDRAM_CONTROLLER.vhd|
+!s107 E:/GitHub Docs/VGAOSST/TEST_FILES/SDRAM Controller/SDRAM_CONTROLLER.vhd|
+!i113 1
+o-work work
+tExplicit 1 NoCoverage 1 CvgOpt 0
