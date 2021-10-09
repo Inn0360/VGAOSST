@@ -2,7 +2,6 @@
 --- TOTAL MEMORY THAT WE WILL BE USING
 --- 640 X 480 BITS = 307200
 
-
 -- File Purpose: SDRAM Controller for Cyclone IV OMDAZZ Board
 -- Chip: HY57V641620F(L/S)TP
 -- Allows for requests, and then that is just given back
@@ -12,6 +11,12 @@
 -- Write Address
 -- Write Data (8bits)
 --
+-- General Information:
+-- Clock Frequency of Memory is 133Mhz (1 Clock Cycle in 10ns)
+-- Clock Frequency of Memory Controller is 3 times slower, 33.25Mhz(1 Clock Cycle is 30ns)
+
+
+-- 
 --output 
 --
 -- Read Data
@@ -32,10 +37,6 @@
 -- Select Column
 -- Write/Read
 -- Close Row
-
---MEMORY ADDRESS INPUT
--- 000000000000 00000000
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -43,46 +44,131 @@ use ieee.numeric_std.all;
 entity sdram_controller is
  
     port(
+-------------------------------------------------------------------
         clk_in:         in      std_logic;
-        clk_out:        out     std_logic;        
+        clk_out:        out     std_logic:= '0';        
         -- Reading Data (Wired to Reader)
         read_rq:        in      std_logic;
-        read_grant:     out     std_logic;
+        read_grant:     out     std_logic:= '0';
         read_data:      out     std_logic_vector(7 downto 0);
         read_address:   in      std_logic_vector(29 downto 0);
         --Write Data ( Wired to Position to Counter Module)
         write_rq:       in     std_logic;
-        write_grant:    out    std_logic;
+        write_grant:    out    std_logic:= '0';
         write_data:     in     std_logic_vector(7 downto 0);
         write_address:  in     std_logic_vector(29 downto 0);
+--------------------------------------------------------------------
         --SDRAM Control
         --Select Bank
         bank_addr0:     out    std_logic_vector(0 to 1) := "00";
         -- Address
-        addr_bus:       out    std_logic_vector(0 to 11);
-        clk_en:         out    std_logic;
-        
-        row_sel:        out    std_logic;
-        col_sel:        out    std_logic;
-        write_en:       out    std_logic;
-        chip_sel:       out    std_logic;
-
+        addr_bus:       out    std_logic_vector(11 downto 0);
+        clk_en:         out    std_logic:= '1';
+        dqmk:           out    std_logic:= '0';
+        --Inverted Signals
+        row_sel:        out    std_logic:= '1';
+        col_sel:        out    std_logic:= '1';
+        write_en:       out    std_logic:= '1';
+        chip_sel:       out    std_logic:= '1';
+        -- Data Bus
         data_inout:    inout std_logic_vector(15 downto 0));
     end sdram_controller;
 
 architecture arch of sdram_controller is 
     -- writing/reading flags
+    signal currentState:      integer:= 0;
+    signal initialisation:    integer:= '1';
+    signal bootup:            std_logic:= '0';
     signal read_true:         std_logic:= '0';
     signal write_true:        std_logic:= '0';
     signal read_done:         std_logic:= '0';
     signal write_done:        std_logic:= '0';
     signal mem_col_read:      std_logic:= '0';
-    signal mem_col_write:      std_logic:= '0';
+    signal mem_col_write:     std_logic:= '0';
 
     signal reset:             std_logic:= '0';
     alias  row_addr:      std_logic_vector is addr_bus(19 downto 8); 
     alias  column_addr:   std_logic_vector is addr_bus(7 downto 0);
     begin
+        -- Only runs at boot up
+        initalise: process(bootup)
+        variable Clock_Delay:   integer:= 0;
+        begin
+            if(clk_in'event and clk_in = '1') then
+                if(Clock_Delay > 0) then
+                    Clock_Delay:= Clock_Delay - 1;
+                    chip_sel <= '1'; -- Disables all inputs as the memory is processing the commands
+
+                else
+                    case initialisation is
+                        when 1 =>
+                            --Precharge (2 Clock Cycles)
+                            chip_sel <= '0';
+                            row_sel  <='0';
+                            --CAS = High
+                            write_en <= '0';
+                            --DQM Doesnt matter
+                            addr_bus(9) <= '1'; -- A10
+                            initialisation <= 2;
+                            Clock_Delay := 2;
+                        when 2 =>
+                            --Auto Refresh (3 Clock Cycles + 1)
+                            write_en <= '1';
+                            Clock_Delay := 4;
+                            intialisation <= 3;
+                        when 3 =>
+                            --Auto Refresh (3 Clock Cycles)
+                            Clock_Delay := 3;
+                            intialisation <= 4;
+                        when 4 =>
+                            -- Program Mode Register(2 Clock Cycles + 1)
+                            bank_addr <= "00";
+                            addr_bus <= "001000110000";
+                            Clock_Delay := 2;
+                            initialisation <= 5;
+                        when others =>
+                            null;
+                    end case;
+                end if;
+
+
+
+        --Main Process is here
+        default : process(clk_in)
+        begin
+            if(clk_in'event and clk_in = '1') then
+                if(currentState = 0) then
+                    if(initialisation < 5) then
+                        bootup <= not bootup;
+                    else
+                        currentState <= 1;
+                    end if;
+
+                elsif(currentState = 1) then
+                    if(read_rq or write_rq = '1') then
+                        -- Go to Row State here
+                    else
+                        -- go to Idle State here
+                    end if;
+                end if;
+            -- First Checks for Initialisation
+            -- Then goes to Idle state
+            -- If request is triggered, then go to Row State, where it then goes to column state
+            -- Once column state has been triggered
+            -- Go to read/write state
+            -- then 
+            end if;
+        end process default;
+        
+
+
+
+
+        
+        
+        
+        
+        
         --Start SDRAM Controller in Idle Mode
         -- Here the SDRAM Controller is waiting for a read/write request
         -- Read requests take priority, but will wait if a write request is in progress
