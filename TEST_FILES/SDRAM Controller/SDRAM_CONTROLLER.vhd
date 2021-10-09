@@ -149,18 +149,47 @@ architecture arch of sdram_controller is
                         else
                             current_state <= 1;
                         end if;
-                    when 1 =>
+                    when 1 => -- Idle State
                             -- THIS LOGIC HERE MAY NOT BE RIGHT, BUT WILL BE PLACED HERE FOR NOW
-                        if(read_rq = '1') then
-                            -- Go to Row State here
-                            read_accept:= '1';
-                        elsif(write_rq = '1') then
-                            write_accept::= '1';
-                            case refresh_cycles_left is
-                                when 
+                           
+                            if(read_rq = '1') then
+                                   -- Go to Row State here
+                                    read_accept:= '1';
+                                    read_true <= '1';
+                            elsif(write_rq = '1') then
+                                    write_accept::= '1';
+                                    write_true <= '1';
+                            end if;
+                            
+                            if(refresh_cycles_left = 0) then
+                                --- If the Self Refresh Command has finished, allow it to send other commands.
+                                if(read_accept = '1') then
+                                    -- Go to Row State here
+                                    current_state <= 2;
+                                elsif(write_accept = '1') then
+                                    current_state <= 2;
+                                else
+                                -- Self Refresh
+                                    chip_sel <= '0';
+                                    row_sel <= '0';
+                                    col_sel <= '0';
+                                    write_en <= '1';
+                                    refresh_cycles_left := 3;
+                                end if;
+                            else
+                                refresh_cycles_left:= refresh_cycles_left -1;
+                            end if;
                             -- go to Idle State here
+                    when 2 => -- Row State
+                            -- Go to Row State
+                        if read_true
 
-                        end if;
+                        if write_true
+                    when 3 => -- Column State
+
+
+
+    
                 end case;
             -- First Checks for Initialisation
             -- Then goes to Idle state
@@ -186,78 +215,18 @@ architecture arch of sdram_controller is
             end if;
         end process clk_passthrough;
 -----------------------------------------------------------------------------
-        idle: process(idle_trigger)
-        begin  
-            if(clk_in'event and clk_in = '1') then
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                -- check if read request or write request has been flagged (read priority)
-                -- Resets value once it identifies that the system is done reading/writing
-                if (read_done or write_done = '1') then
-                    read_grant <= '0';
-                    write_grant<= '0';
-                    reset <= '1';
-                else
-                    --- possible that write will never be executed because read is priority
-                    reset <= '0';
-                    
-                    if (read_grant or write_grant = '1') then
-                        null;
-                    else 
-                        case read_rq is
-                            when '1' => 
-                                read_grant <= '1';
-                            when others => null;            
-                        end case;
-
-                        if(read_true = '0') then
-                            case write_rq is 
-                                when '1' => 
-                                    write_grant <= '1';
-                                when others => null;
-                            end case;
-                        end if;
-                    end if;
-                end if;
-            end if;
-        end process idle;
+       
 -----------------------------------------------------------------------------
-        memory_select_row: process(read_grant,write_grant)
+        memory_select_row: process(read_true,write_true)
         begin
             --only starts if at least one of the values is true
-            if(read_grant or write_grant = '1') then
+            if(read_true or write_true = '1') then
                 -- get bank location, row address, write to SDRAM
                 ---converting Memory address to row address
                 addr_bus <= row_addr;
                 row_sel <= 1;
 
-                if(read_grant = '1') then
+                if(read_true = '1') then
                     mem_col_read <= not mem_col_read;
                 else
                     mem_col_write <= not mem_col_write;
@@ -353,3 +322,38 @@ architecture arch of sdram_controller is
 
 end arch;
 
+ --idle: process(idle_trigger)
+ --       begin  
+ --           if(clk_in'event and clk_in = '1') then
+--
+--
+ --               -- check if read request or write request has been flagged (read priority)
+ --               -- Resets value once it identifies that the system is done reading/writing
+ --               if (read_done or write_done = '1') then
+ --                   read_grant <= '0';
+ --                   write_grant<= '0';
+ --                   reset <= '1';
+ --               else
+ --                   --- possible that write will never be executed because read is priority
+ --                   reset <= '0';
+ --                   
+ --                   if (read_grant or write_grant = '1') then
+ --                       null;
+ --                   else 
+ --                       case read_rq is
+ --                           when '1' => 
+ --                               read_grant <= '1';
+ --                           when others => null;            
+ --                       end case;
+--
+ --                       if(read_true = '0') then
+ --                           case write_rq is 
+ --                               when '1' => 
+ --                                   write_grant <= '1';
+ --                               when others => null;
+ --                           end case;
+ --                       end if;
+ --                   end if;
+ --               end if;
+ --           end if;
+ --       end process idle;
