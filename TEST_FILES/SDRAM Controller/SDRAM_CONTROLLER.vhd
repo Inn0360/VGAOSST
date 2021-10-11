@@ -81,9 +81,12 @@ architecture arch of sdram_controller is
     signal boot_up:            std_logic:= '0';
     signal idle_trigger:       std_logic:= '0';
 
-
     signal read_true:         std_logic:= '0';
     signal write_true:        std_logic:= '0';
+
+    signal row_done:          std_logic:= '0';
+
+
     signal read_done:         std_logic:= '0';
     signal write_done:        std_logic:= '0';
     signal mem_col_read:      std_logic:= '0';
@@ -137,9 +140,11 @@ architecture arch of sdram_controller is
 
         --Main Process is here
         default : process(clk_in)
-        refresh_cycles_left:  integer:= 0;
-        write_accept:        std_logic:= 0;
-        read_accept:         std_logic:= 0;
+
+        variable refresh_cycles_left:  integer:= 0;
+        variable write_accept:        std_logic:= '0';
+        variable read_accept:         std_logic:= '0';
+        variable lock:                std_logic:= '1';
         begin
             if(clk_in'event and clk_in = '1') then
                 case current_state is 
@@ -151,45 +156,56 @@ architecture arch of sdram_controller is
                         end if;
                     when 1 => -- Idle State
                             -- THIS LOGIC HERE MAY NOT BE RIGHT, BUT WILL BE PLACED HERE FOR NOW
-                           
-                            if(read_rq = '1') then
-                                   -- Go to Row State here
-                                    read_accept:= '1';
-                                    read_true <= '1';
-                            elsif(write_rq = '1') then
-                                    write_accept::= '1';
-                                    write_true <= '1';
-                            end if;
-                            
-                            if(refresh_cycles_left = 0) then
-                                --- If the Self Refresh Command has finished, allow it to send other commands.
-                                if(read_accept = '1') then
-                                    -- Go to Row State here
-                                    current_state <= 2;
-                                elsif(write_accept = '1') then
-                                    current_state <= 2;
-                                else
-                                -- Self Refresh
-                                    chip_sel <= '0';
-                                    row_sel <= '0';
-                                    col_sel <= '0';
-                                    write_en <= '1';
-                                    refresh_cycles_left := 3;
-                                end if;
+                        if(read_rq = '1') then
+                               -- Go to Row State here
+                                read_accept:= '1';
+                                read_true <= '1';
+                        elsif(write_rq = '1') then
+                                write_accept::= '1';
+                                write_true <= '1';
+                        end if;
+                        
+                        if(refresh_cycles_left = 0) then
+                            --- If the Self Refresh Command has finished, allow it to send other commands.
+                            if(read_accept = '1') then
+                                -- Go to Row State here
+                                current_state <= 2;
+                            elsif(write_accept = '1') then
+                                current_state <= 2;
                             else
-                                refresh_cycles_left:= refresh_cycles_left -1;
+                            -- Self Refresh
+                                chip_sel <= '0';
+                                row_sel <= '0';
+                                col_sel <= '0';
+                                write_en <= '1';
+                                refresh_cycles_left := 3;
                             end if;
-                            -- go to Idle State here
+                        else
+                            refresh_cycles_left:= refresh_cycles_left - 1;
+                        end if;
+                        -- go to Idle State here
                     when 2 => -- Row State
-                            -- Go to Row State
-                        if read_true
+                            -- Go to Row State (REQUIRES ONE CLOCK CYCLE)
+                        if(lock = '0') then
+                            if (read_accept = '1') then
+                                read_true <= not read_true;
+                            elsif (write_true = '1') then
+                                write_true <= not write_true;
+                            -- trigger lock to stop this running all the time
+                                lock:= '1';
+                            end if;
+                        elsif (lock = '1') then
+                            if(row_done = '1') then
+                                current_state <= 3;
+                                lock:= '0';
+                            else
+                                null;
+                            end if;
+                        end if;
 
-                        if write_true
+
                     when 3 => -- Column State
-
-
-
-    
+                        -- could be done consecutively after row
                 end case;
             -- First Checks for Initialisation
             -- Then goes to Idle state
@@ -215,13 +231,10 @@ architecture arch of sdram_controller is
             end if;
         end process clk_passthrough;
 -----------------------------------------------------------------------------
-       
------------------------------------------------------------------------------
         memory_select_row: process(read_true,write_true)
         begin
             --only starts if at least one of the values is true
-            if(read_true or write_true = '1') then
-                -- get bank location, row address, write to SDRAM
+            if(read_true or write_true = '1') then --This logic doesnt work -> ! need to find another way of doing this
                 ---converting Memory address to row address
                 addr_bus <= row_addr;
                 row_sel <= 1;
