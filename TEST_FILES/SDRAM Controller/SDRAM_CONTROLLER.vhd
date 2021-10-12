@@ -85,14 +85,13 @@ architecture arch of sdram_controller is
     signal write_true:        std_logic:= '0';
 
     signal row_done:          std_logic:= '0';
-
+    signal col_done           std_logic:= '0';
 
     signal read_done:         std_logic:= '0';
     signal write_done:        std_logic:= '0';
     signal mem_col_read:      std_logic:= '0';
     signal mem_col_write:     std_logic:= '0';
 
-    signal reset:             std_logic:= '0';
     alias  row_addr:      std_logic_vector is addr_bus(19 downto 8); 
     alias  column_addr:   std_logic_vector is addr_bus(7 downto 0);
     begin
@@ -186,25 +185,36 @@ architecture arch of sdram_controller is
                         -- go to Idle State here
                     when 2 => -- Row State
                             -- Go to Row State (REQUIRES ONE CLOCK CYCLE)
-                        if(lock = '0') then
+                        if(refresh_cycles_left = '0') then
                             if (read_accept = '1') then
                                 read_true <= not read_true;
+                                current_state <= 3;
+                                refresh_cycles_left:= 2;
                             elsif (write_true = '1') then
                                 write_true <= not write_true;
-                            -- trigger lock to stop this running all the time
-                                lock:= '1';
-                            end if;
-                        elsif (lock = '1') then
-                            if(row_done = '1') then
                                 current_state <= 3;
-                                lock:= '0';
-                            else
-                                null;
+                                refresh_cycles_left:= 2;
                             end if;
                         end if;
 
-
                     when 3 => -- Column State
+                        -- trigger column/write state immediately( Check whether write or read state first)
+                         if(refresh_cycles_left = '0') then
+                            if (read_accept = '1') then
+                                mem_col_read <= not mem_col_read;
+                                current_state <= 4;
+                                refresh_cycles_left:= 2;
+
+                            elsif (write_true = '1') then
+                                mem_col_write <= not mem_col_read;
+                                current_state <= 4;
+                                refresh_cycles_left:= 2;
+                 
+                            end if;
+                    when 4 =>
+                        If(refresh_cycles_left ='0') then
+                        
+                        end if;
                         -- could be done consecutively after row
                 end case;
             -- First Checks for Initialisation
@@ -237,39 +247,40 @@ architecture arch of sdram_controller is
             if(read_true or write_true = '1') then --This logic doesnt work -> ! need to find another way of doing this
                 ---converting Memory address to row address
                 addr_bus <= row_addr;
-                row_sel <= 1;
-
-                if(read_true = '1') then
-                    mem_col_read <= not mem_col_read;
-                else
-                    mem_col_write <= not mem_col_write;
-                end if;
-                
+                chip_sel <= '0';
+                row_sel <= '0';
+                col_sek <= '1';
+                write_en <= '1';
             end if;
 
         end process memory_select_row;
 -----------------------------------------------------------------------------
-        memory_select_column: process(mem_col_read, mem_col_write,reset)
+        memory_select_column_write: process(mem_col_write)
         begin
-            if (reset ='1') then
-                read_true <= '0';
-                write_true <= '0';
-                write_en <= '0';
-            else
-                row_sel <= '0';
-                write_en <= '0';
-                col_sel <= '1'
-                if(mem_col_read) then
-                    read_true <= '1';
-                elsif (mem_cool_write) then
-                    write_en <= '1';
-                    write_true <= '1';
-                end if;
-                ---- resets to known state before only sending column info
-                addr_bus <= '000000000000'
-                addr_bus(7 downto 0) <= column_addr;
-            end if;
-        end process memory_select_column;
+            chip_sel <='0';
+            row_sel <= '1';
+            col_sel <= '0';
+            write_en <= '0';
+            dqmk <= '1';
+            ---- resets to known state before only sending column info
+            addr_bus <= '000000000010'
+            addr_bus(7 downto 0) <= column_addr;
+            
+        end process memory_select_column_write;
+
+
+        memory_select_column_read: process(mem_col_read, reset)
+        begin
+            chip_sel <='0';
+            row_sel <= '1';
+            col_sel <= '0';
+            write_en <= '1';
+            dqmk <= '1';
+            ---- resets to known state before only sending column info
+            addr_bus <= '000000000010'
+            --This is not correct
+            addr_bus(7 downto 0) <= column_addr;
+        end process memory_select_column_read
 -----------------------------------------------------------------------------
         -- starts as long as read_true is changed
         read : process(read_true, reset)
