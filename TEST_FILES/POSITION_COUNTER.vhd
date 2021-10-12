@@ -62,12 +62,11 @@ architecture ticktock of ascii_interpreter is
         case in_ascii is
             when 11 => temp_vertical    <= temp_vertical + 1; -- Vertical Tab
                        temp_horizontal  <= temp_horizontal + 1;
-            when 16 => temp_horizontal  <= temp_horizontal -1;-- Backspace
-            when 17 => temp_horizontal  <= temp_horizontal + 4; -- Tab 4 character spaces
-            when 18 => temp_vertical    <= temp_vertical + 1;
-            when 21 => temp_horizontal <= 0;              --Carriage Return + Line Feed
-                       temp_vertical <= temp_vertical + 1; 
-            when 64 => temp_horizontal <= temp_horizontal + 1; --Space
+            when 8 => temp_horizontal  <= temp_horizontal -1;-- Backspace
+            when 9 => temp_horizontal  <= temp_horizontal + 4; -- Tab 4 character spaces
+            when 13 => temp_vertical    <= temp_vertical + 1; -- Carriage Return
+            when 10 => temp_horizontal <= 0;              -- Line Feed
+            when 32 => temp_horizontal <= temp_horizontal + 1; --Space
             when others => null;
         end case;
     end process special_char;
