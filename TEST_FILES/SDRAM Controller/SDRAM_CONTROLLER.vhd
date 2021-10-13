@@ -158,13 +158,14 @@ architecture arch of sdram_controller is
                         if(read_rq = '1') then
                                -- Go to Row State here
                                 read_accept:= '1';
-                                read_true <= '1';
+                                read_grant <= '1'
                         elsif(write_rq = '1') then
                                 write_accept::= '1';
-                                write_true <= '1';
+                                write_grant <= '1';
                         end if;
                         
                         if(refresh_cycles_left = 0) then
+                            data_inout <= '00000000';
                             --- If the Self Refresh Command has finished, allow it to send other commands.
                             if(read_accept = '1') then
                                 -- Go to Row State here
@@ -195,10 +196,12 @@ architecture arch of sdram_controller is
                                 current_state <= 3;
                                 refresh_cycles_left:= 2;
                             end if;
+                        else 
+                            refresh_cycles_left:= refresh_cycles_left - 1;
                         end if;
 
                     when 3 => -- Column State
-                        -- trigger column/write state immediately( Check whether write or read state first)
+                        -- trigger column/write state immediately (Check whether write or read state first)
                          if(refresh_cycles_left = '0') then
                             if (read_accept = '1') then
                                 mem_col_read <= not mem_col_read;
@@ -209,11 +212,24 @@ architecture arch of sdram_controller is
                                 mem_col_write <= not mem_col_read;
                                 current_state <= 4;
                                 refresh_cycles_left:= 2;
-                 
                             end if;
+                        else 
+                            refresh_cycles_left:= refresh_cycles_left - 1;
+                        end if;
                     when 4 =>
                         If(refresh_cycles_left ='0') then
-                        
+                        -- read or write information here
+                            if(read_accept = '1') then
+                                read_data <= data_inout;
+                                refresh_cycles_left := 1;
+                                current_state <= 1;
+
+                            elsif write_accept = '1' then
+                                data_inout <= write_data;
+                                refresh_cycles_left := 1;
+                                current_state <= 1;
+
+                            end if;
                         end if;
                         -- could be done consecutively after row
                 end case;
@@ -236,7 +252,8 @@ architecture arch of sdram_controller is
         -- passthrough the clock with the SDRAM 
         clk_passthrough : process(clk_in)
         begin
-            if(clk_in'event and clk_in = '1') then
+            -- THIS CLOCK IS STAGGERED WITH THE CLK -> uses falling edge instead of risingedge
+            if(clk_in'event and clk_in = '0') then
                 clk_out <= not clk_out;
             end if;
         end process clk_passthrough;
@@ -281,68 +298,7 @@ architecture arch of sdram_controller is
             --This is not correct
             addr_bus(7 downto 0) <= column_addr;
         end process memory_select_column_read
------------------------------------------------------------------------------
-        -- starts as long as read_true is changed
-        read : process(read_true, reset)
-        begin
-            if (reset = '1') then
-                read_done <= '0';
-                read_data <= '00000000';
-            else
-                read_data <= data_inout;
 
-
-            end if;
-        end process read;
------------------------------------------------------------------------------
-
-        -- starts as long as read_true is changed
-        write: process(write_true,reset)
-        begin
-            if(reset ='1') then
-                
-                write_done <= '0';
-            else
-                write_data <= data_inout;
-            end if;
-
-
-        end process write;
------------------------------------------------------------------------------
-        --Initalise SDRAM Chip
-        
-        bank_addr0 <= "00";
-        addr_bus <= "001000100011"
-        
-
-        --State Machine to check whether requests are present
-        if(clk_in'event and clk_in = '1') then
-            if(write_rq ='1' or read_rq = '1') then
-                write_request <= '1';
-                -- set bank address
-                bank_addr0 <= "00";
-                chip_sel <= '0';
-                row_sel  <= '0';
-                col_sel  <- '1';
-                write_en <= '1';
-                --I NEED TO GIVE ROW DATA HERE
-                addr_bus <= "000000000000"
-
-            if( write_rq = '1') then
-                write_request <= '1;
-                bank_addr0 <= "00";
-                chip_sel <= '0';
-                row_sel  <= '1';
-                col_sel  <- '0';
-                write_en <= '0';
-                -- I NEED TO GIVE COLUMN DATA HERE
-                addr_bus <= "000000000000"
-
-            end if;
-
-
-
-            end if;
 
 end arch;
 
