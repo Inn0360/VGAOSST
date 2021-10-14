@@ -2260,10 +2260,6 @@ begin
                 report("INITIALELEMENT" & integer'image(arrayElement));
 
                 -- I need something here that will take care of special characters(backspace, return carriage, newline)
-
-
-
-
                 pixel_line_data <= ascii_pixel_info(arrayElement);
                 report "one line done ( " & to_hstring(ascii_pixel_info(arrayElement));
                 track <= track + 1;
