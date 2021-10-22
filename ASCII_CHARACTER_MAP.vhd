@@ -2257,15 +2257,12 @@ begin
             
             if (print = '1' and track < 16) then 
                 arrayElement := arrayElementInitial + track;
-                report("INITIALELEMENT" & integer'image(arrayElement));
-
+               -- report("INITIALELEMENT" & integer'image(arrayElement));
                 -- I need something here that will take care of special characters(backspace, return carriage, newline)
                 pixel_line_data <= ascii_pixel_info(arrayElement);
-                report "one line done ( " & to_hstring(ascii_pixel_info(arrayElement));
+                --report "one line done ( " & to_hstring(ascii_pixel_info(arrayElement));
                 track <= track + 1;
-                report "track" & integer'image(track);
-
-            
+                --report "track" & integer'image(track);
             end if;
         end if;
     end process output;
