@@ -1,5 +1,5 @@
 Analysis & Synthesis report for VGAOSST
-Thu Oct 21 23:32:54 2021
+Sat Oct 23 01:13:04 2021
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
 
 
@@ -20,10 +20,11 @@ Quartus Prime Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
  12. Multiplexer Restructuring Statistics (Restructuring Performed)
  13. Parameter Settings for User Entity Instance: vga_timing:inst
  14. Parameter Settings for User Entity Instance: PLL:inst1|altpll:altpll_component
- 15. altpll Parameter Settings by Entity Instance
- 16. Post-Synthesis Netlist Statistics for Top Partition
- 17. Elapsed Time Per Partition
- 18. Analysis & Synthesis Messages
+ 15. Parameter Settings for User Entity Instance: default:inst19
+ 16. altpll Parameter Settings by Entity Instance
+ 17. Post-Synthesis Netlist Statistics for Top Partition
+ 18. Elapsed Time Per Partition
+ 19. Analysis & Synthesis Messages
 
 
 
@@ -50,16 +51,16 @@ https://fpgasoftware.intel.com/eula.
 +------------------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                                   ;
 +------------------------------------+-----------------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Oct 21 23:32:54 2021                     ;
+; Analysis & Synthesis Status        ; Successful - Sat Oct 23 01:13:04 2021                     ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition ;
 ; Revision Name                      ; VGAOSST                                                   ;
 ; Top-level Entity Name              ; VGA_CONTROLLER                                            ;
 ; Family                             ; Cyclone IV E                                              ;
-; Total logic elements               ; 87                                                        ;
-;     Total combinational functions  ; 68                                                        ;
+; Total logic elements               ; 472                                                       ;
+;     Total combinational functions  ; 453                                                       ;
 ;     Dedicated logic registers      ; 42                                                        ;
 ; Total registers                    ; 42                                                        ;
-; Total pins                         ; 7                                                         ;
+; Total pins                         ; 13                                                        ;
 ; Total virtual pins                 ; 0                                                         ;
 ; Total memory bits                  ; 0                                                         ;
 ; Embedded Multiplier 9-bit elements ; 0                                                         ;
@@ -175,6 +176,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------+-----------------+------------------------------------+-------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                      ; Library ;
 +----------------------------------+-----------------+------------------------------------+-------------------------------------------------------------------+---------+
+; default.vhd                      ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/default.vhd                                ;         ;
+; TEST_FILES/OSSTWasHere.vhd       ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd                 ;         ;
 ; TEST_FILES/test.vhd              ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd                        ;         ;
 ; hw_image_generator.vhd           ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/hw_image_generator.vhd                     ;         ;
 ; VGA_controller.vhd               ; yes             ; User VHDL File                     ; E:/GitHub Docs/VGAOSST/VGA_controller.vhd                         ;         ;
@@ -189,53 +192,56 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------+-----------------+------------------------------------+-------------------------------------------------------------------+---------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                                                                                ;
-+---------------------------------------------+------------------------------------------------------------------------------+
-; Resource                                    ; Usage                                                                        ;
-+---------------------------------------------+------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 87                                                                           ;
-;                                             ;                                                                              ;
-; Total combinational functions               ; 68                                                                           ;
-; Logic element usage by number of LUT inputs ;                                                                              ;
-;     -- 4 input functions                    ; 27                                                                           ;
-;     -- 3 input functions                    ; 11                                                                           ;
-;     -- <=2 input functions                  ; 30                                                                           ;
-;                                             ;                                                                              ;
-; Logic elements by mode                      ;                                                                              ;
-;     -- normal mode                          ; 50                                                                           ;
-;     -- arithmetic mode                      ; 18                                                                           ;
-;                                             ;                                                                              ;
-; Total registers                             ; 42                                                                           ;
-;     -- Dedicated logic registers            ; 42                                                                           ;
-;     -- I/O registers                        ; 0                                                                            ;
-;                                             ;                                                                              ;
-; I/O pins                                    ; 7                                                                            ;
-;                                             ;                                                                              ;
-; Embedded Multiplier 9-bit elements          ; 0                                                                            ;
-;                                             ;                                                                              ;
-; Total PLLs                                  ; 1                                                                            ;
-;     -- PLLs                                 ; 1                                                                            ;
-;                                             ;                                                                              ;
-; Maximum fan-out node                        ; PLL:inst1|altpll:altpll_component|PLL_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 43                                                                           ;
-; Total fan-out                               ; 356                                                                          ;
-; Average fan-out                             ; 2.85                                                                         ;
-+---------------------------------------------+------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                       ;
++---------------------------------------------+-------------------------------------+
+; Resource                                    ; Usage                               ;
++---------------------------------------------+-------------------------------------+
+; Estimated Total logic elements              ; 472                                 ;
+;                                             ;                                     ;
+; Total combinational functions               ; 453                                 ;
+; Logic element usage by number of LUT inputs ;                                     ;
+;     -- 4 input functions                    ; 321                                 ;
+;     -- 3 input functions                    ; 75                                  ;
+;     -- <=2 input functions                  ; 57                                  ;
+;                                             ;                                     ;
+; Logic elements by mode                      ;                                     ;
+;     -- normal mode                          ; 435                                 ;
+;     -- arithmetic mode                      ; 18                                  ;
+;                                             ;                                     ;
+; Total registers                             ; 42                                  ;
+;     -- Dedicated logic registers            ; 42                                  ;
+;     -- I/O registers                        ; 0                                   ;
+;                                             ;                                     ;
+; I/O pins                                    ; 13                                  ;
+;                                             ;                                     ;
+; Embedded Multiplier 9-bit elements          ; 0                                   ;
+;                                             ;                                     ;
+; Total PLLs                                  ; 1                                   ;
+;     -- PLLs                                 ; 1                                   ;
+;                                             ;                                     ;
+; Maximum fan-out node                        ; vga_timing:inst|horizontal_coord[3] ;
+; Maximum fan-out                             ; 63                                  ;
+; Total fan-out                               ; 1789                                ;
+; Average fan-out                             ; 3.43                                ;
++---------------------------------------------+-------------------------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                           ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+----------------+--------------+
-; Compilation Hierarchy Node           ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                         ; Entity Name    ; Library Name ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+----------------+--------------+
-; |VGA_CONTROLLER                      ; 68 (0)              ; 42 (0)                    ; 0           ; 0            ; 0       ; 0         ; 7    ; 0            ; |VGA_CONTROLLER                                                             ; VGA_CONTROLLER ; work         ;
-;    |PLL:inst1|                       ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1                                                   ; PLL            ; work         ;
-;       |altpll:altpll_component|      ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1|altpll:altpll_component                           ; altpll         ; work         ;
-;          |PLL_altpll:auto_generated| ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1|altpll:altpll_component|PLL_altpll:auto_generated ; PLL_altpll     ; work         ;
-;    |test:inst2|                      ; 10 (10)             ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|test:inst2                                                  ; test           ; work         ;
-;    |vga_timing:inst|                 ; 58 (58)             ; 42 (42)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|vga_timing:inst                                             ; vga_timing     ; work         ;
-+--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+----------------+--------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                               ;
++--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+--------------------+--------------+
+; Compilation Hierarchy Node           ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                         ; Entity Name        ; Library Name ;
++--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+--------------------+--------------+
+; |VGA_CONTROLLER                      ; 453 (7)             ; 42 (0)                    ; 0           ; 0            ; 0       ; 0         ; 13   ; 0            ; |VGA_CONTROLLER                                                             ; VGA_CONTROLLER     ; work         ;
+;    |PLL:inst1|                       ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1                                                   ; PLL                ; work         ;
+;       |altpll:altpll_component|      ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1|altpll:altpll_component                           ; altpll             ; work         ;
+;          |PLL_altpll:auto_generated| ; 0 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|PLL:inst1|altpll:altpll_component|PLL_altpll:auto_generated ; PLL_altpll         ; work         ;
+;    |default:inst19|                  ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|default:inst19                                              ; default            ; work         ;
+;    |hw_image_generator:inst3|        ; 128 (128)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|hw_image_generator:inst3                                    ; hw_image_generator ; work         ;
+;    |test2:inst4|                     ; 246 (246)           ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|test2:inst4                                                 ; test2              ; work         ;
+;    |test:inst2|                      ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|test:inst2                                                  ; test               ; work         ;
+;    |vga_timing:inst|                 ; 64 (64)             ; 42 (42)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |VGA_CONTROLLER|vga_timing:inst                                             ; vga_timing         ; work         ;
++--------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------+--------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -254,8 +260,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Register name                            ; Reason for Removal                     ;
 +------------------------------------------+----------------------------------------+
 ; vga_timing:inst|horizontal_coord[10..30] ; Stuck at GND due to stuck port data_in ;
-; vga_timing:inst|vertical_coord[9..31]    ; Stuck at GND due to stuck port data_in ;
+; vga_timing:inst|vertical_coord[9..30]    ; Stuck at GND due to stuck port data_in ;
 ; vga_timing:inst|horizontal_coord[31]     ; Stuck at GND due to stuck port data_in ;
+; vga_timing:inst|vertical_coord[31]       ; Stuck at GND due to stuck port data_in ;
 ; Total Number of Removed Registers = 45   ;                                        ;
 +------------------------------------------+----------------------------------------+
 
@@ -688,6 +695,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++-------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: default:inst19 ;
++----------------+-------+------------------------------------+
+; Parameter Name ; Value ; Type                               ;
++----------------+-------+------------------------------------+
+; pixels_y       ; 478   ; Signed Integer                     ;
+; pixels_x       ; 600   ; Signed Integer                     ;
++----------------+-------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +-------------------------------------------------------------------+
 ; altpll Parameter Settings by Entity Instance                      ;
 +-------------------------------+-----------------------------------+
@@ -710,23 +728,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; boundary_port         ; 7                           ;
+; boundary_port         ; 13                          ;
 ; cycloneiii_ff         ; 42                          ;
 ;     CLR               ; 23                          ;
 ;     ENA CLR           ; 19                          ;
-; cycloneiii_lcell_comb ; 71                          ;
+; cycloneiii_lcell_comb ; 456                         ;
 ;     arith             ; 18                          ;
 ;         2 data inputs ; 18                          ;
-;     normal            ; 53                          ;
-;         0 data inputs ; 1                           ;
-;         1 data inputs ; 4                           ;
-;         2 data inputs ; 10                          ;
-;         3 data inputs ; 11                          ;
-;         4 data inputs ; 27                          ;
+;     normal            ; 438                         ;
+;         1 data inputs ; 5                           ;
+;         2 data inputs ; 37                          ;
+;         3 data inputs ; 75                          ;
+;         4 data inputs ; 321                         ;
 ; cycloneiii_pll        ; 1                           ;
 ;                       ;                             ;
-; Max LUT depth         ; 8.00                        ;
-; Average LUT depth     ; 4.66                        ;
+; Max LUT depth         ; 14.00                       ;
+; Average LUT depth     ; 9.40                        ;
 +-----------------------+-----------------------------+
 
 
@@ -735,7 +752,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:00     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -745,10 +762,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
-    Info: Processing started: Thu Oct 21 23:32:46 2021
+    Info: Processing started: Sat Oct 23 01:12:55 2021
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off VGAOSST -c VGAOSST
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file default.vhd
+    Info (12022): Found design unit 1: default-behavior File: E:/GitHub Docs/VGAOSST/default.vhd Line: 39
+    Info (12023): Found entity 1: default File: E:/GitHub Docs/VGAOSST/default.vhd Line: 26
+Info (12021): Found 2 design units, including 1 entities, in source file test_files/osstwashere.vhd
+    Info (12022): Found design unit 1: test2-behv File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 54
+    Info (12023): Found entity 1: test2 File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 44
 Info (12021): Found 2 design units, including 1 entities, in source file test_files/test.vhd
     Info (12022): Found design unit 1: test-behavior File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 54
     Info (12023): Found entity 1: test File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 44
@@ -797,25 +820,25 @@ Warning (275080): Converted elements in bus name "red" using legacy naming rules
     Warning (275081): Converted element name(s) from "red[0]" to "red0"
     Warning (275081): Converted element name(s) from "red[6]" to "red6"
     Warning (275081): Converted element name(s) from "red[7..0]" to "red7..0"
-Info (12128): Elaborating entity "test" for hierarchy "test:inst2"
-Warning (10631): VHDL Process Statement warning at test.vhd(56): inferring latch(es) for signal or variable "red", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Warning (10631): VHDL Process Statement warning at test.vhd(56): inferring latch(es) for signal or variable "blue", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[0]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[1]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[2]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[3]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[4]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[5]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[6]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "blue[7]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[0]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[1]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[2]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[3]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[4]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[5]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[6]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
-Info (10041): Inferred latch for "red[7]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (12128): Elaborating entity "test2" for hierarchy "test2:inst4"
+Warning (10631): VHDL Process Statement warning at OSSTWasHere.vhd(56): inferring latch(es) for signal or variable "red", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Warning (10631): VHDL Process Statement warning at OSSTWasHere.vhd(56): inferring latch(es) for signal or variable "blue", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[0]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[1]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[2]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[3]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[4]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[5]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[6]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "blue[7]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[0]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[1]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[2]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[3]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[4]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[5]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[6]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
+Info (10041): Inferred latch for "red[7]" at OSSTWasHere.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/OSSTWasHere.vhd Line: 56
 Info (12128): Elaborating entity "vga_timing" for hierarchy "vga_timing:inst"
 Info (12128): Elaborating entity "PLL" for hierarchy "PLL:inst1"
 Info (12128): Elaborating entity "altpll" for hierarchy "PLL:inst1|altpll:altpll_component" File: E:/GitHub Docs/VGAOSST/PLL.vhd Line: 141
@@ -898,28 +921,45 @@ Info (10041): Inferred latch for "red[4]" at hw_image_generator.vhd(56) File: E:
 Info (10041): Inferred latch for "red[5]" at hw_image_generator.vhd(56) File: E:/GitHub Docs/VGAOSST/hw_image_generator.vhd Line: 56
 Info (10041): Inferred latch for "red[6]" at hw_image_generator.vhd(56) File: E:/GitHub Docs/VGAOSST/hw_image_generator.vhd Line: 56
 Info (10041): Inferred latch for "red[7]" at hw_image_generator.vhd(56) File: E:/GitHub Docs/VGAOSST/hw_image_generator.vhd Line: 56
+Info (12128): Elaborating entity "default" for hierarchy "default:inst19"
+Info (12128): Elaborating entity "test" for hierarchy "test:inst2"
+Warning (10631): VHDL Process Statement warning at test.vhd(56): inferring latch(es) for signal or variable "red", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Warning (10631): VHDL Process Statement warning at test.vhd(56): inferring latch(es) for signal or variable "blue", which holds its previous value in one or more paths through the process File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[0]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[1]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[2]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[3]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[4]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[5]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[6]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "blue[7]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[0]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[1]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[2]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[3]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[4]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[5]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[6]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
+Info (10041): Inferred latch for "red[7]" at test.vhd(56) File: E:/GitHub Docs/VGAOSST/TEST_FILES/test.vhd Line: 56
 Info (13000): Registers with preset signals will power-up high File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 35
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
-Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "Red" is stuck at GND
-    Warning (13410): Pin "Blue" is stuck at GND
 Info (286030): Timing-Driven Synthesis is running
 Critical Warning (18061): Ignored Power-Up Level option on the following registers
+    Critical Warning (18010): Register vga_timing:inst|horizontal_coord[31] will power up to Low File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 69
     Critical Warning (18010): Register vga_timing:inst|vertical_coord[31] will power up to Low File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 69
     Critical Warning (18010): Register vga_timing:inst|vertical_coord[0] will power up to Low File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 69
-    Critical Warning (18010): Register vga_timing:inst|horizontal_coord[31] will power up to Low File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 69
     Critical Warning (18010): Register vga_timing:inst|horizontal_coord[0] will power up to Low File: E:/GitHub Docs/VGAOSST/VGA_controller.vhd Line: 69
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 115 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 2 input pins
-    Info (21059): Implemented 5 output pins
-    Info (21061): Implemented 107 logic cells
+Info (21057): Implemented 506 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 5 input pins
+    Info (21059): Implemented 8 output pins
+    Info (21061): Implemented 492 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 46 warnings
-    Info: Peak virtual memory: 4854 megabytes
-    Info: Processing ended: Thu Oct 21 23:32:54 2021
-    Info: Elapsed time: 00:00:08
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 45 warnings
+    Info: Peak virtual memory: 4859 megabytes
+    Info: Processing ended: Sat Oct 23 01:13:04 2021
+    Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:17
 
 

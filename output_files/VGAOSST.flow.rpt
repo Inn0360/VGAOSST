@@ -1,5 +1,5 @@
 Flow report for VGAOSST
-Thu Oct 21 23:33:01 2021
+Sat Oct 23 01:13:12 2021
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition
 
 
@@ -41,18 +41,18 @@ https://fpgasoftware.intel.com/eula.
 +------------------------------------------------------------------------------------------------+
 ; Flow Summary                                                                                   ;
 +------------------------------------+-----------------------------------------------------------+
-; Flow Status                        ; Successful - Thu Oct 21 23:32:59 2021                     ;
+; Flow Status                        ; Successful - Sat Oct 23 01:13:10 2021                     ;
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 Patches 1.02i SJ Lite Edition ;
 ; Revision Name                      ; VGAOSST                                                   ;
 ; Top-level Entity Name              ; VGA_CONTROLLER                                            ;
 ; Family                             ; Cyclone IV E                                              ;
 ; Device                             ; EP4CE6E22C8                                               ;
 ; Timing Models                      ; Final                                                     ;
-; Total logic elements               ; 80 / 6,272 ( 1 % )                                        ;
-;     Total combinational functions  ; 68 / 6,272 ( 1 % )                                        ;
+; Total logic elements               ; 457 / 6,272 ( 7 % )                                       ;
+;     Total combinational functions  ; 453 / 6,272 ( 7 % )                                       ;
 ;     Dedicated logic registers      ; 42 / 6,272 ( < 1 % )                                      ;
 ; Total registers                    ; 42                                                        ;
-; Total pins                         ; 7 / 92 ( 8 % )                                            ;
+; Total pins                         ; 13 / 92 ( 14 % )                                          ;
 ; Total virtual pins                 ; 0                                                         ;
 ; Total memory bits                  ; 0 / 276,480 ( 0 % )                                       ;
 ; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                                            ;
@@ -65,7 +65,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 10/21/2021 23:32:47 ;
+; Start date & time ; 10/23/2021 01:12:56 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; VGAOSST             ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------+----------------------------------------+---------------+----------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name    ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+----------------+------------+
-; COMPILER_SIGNATURE_ID               ; 185410940478828.163481956727428        ; --            ; --             ; --         ;
+; COMPILER_SIGNATURE_ID               ; 185410940478828.163491197514824        ; --            ; --             ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --             ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --             ; --         ;
 ; MISC_FILE                           ; PLL.bsf                                ; --            ; --             ; --         ;
@@ -102,11 +102,11 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:07     ; 1.0                     ; 4854 MB             ; 00:00:17                           ;
-; Fitter               ; 00:00:03     ; 1.1                     ; 6482 MB             ; 00:00:04                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 4676 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:01     ; 1.1                     ; 4900 MB             ; 00:00:01                           ;
-; Total                ; 00:00:12     ; --                      ; --                  ; 00:00:23                           ;
+; Analysis & Synthesis ; 00:00:09     ; 1.0                     ; 4859 MB             ; 00:00:17                           ;
+; Fitter               ; 00:00:03     ; 1.1                     ; 6497 MB             ; 00:00:06                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4684 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:01     ; 1.2                     ; 4907 MB             ; 00:00:01                           ;
+; Total                ; 00:00:14     ; --                      ; --                  ; 00:00:25                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

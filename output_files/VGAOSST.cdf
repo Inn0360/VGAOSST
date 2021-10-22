@@ -4,10 +4,10 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("E:/GitHub Docs/VGAOSST/output_files/") File("VGAOSST.sof") MfrSpec(OpMask(1));
+		Device PartName(EPCS16) Path("E:/GitHub Docs/VGAOSST/output_files/") File("VGAOSST.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
 
 ChainEnd;
 
 AlteraBegin;
-	ChainType(JTAG);
+	ChainType(asc);
 AlteraEnd;

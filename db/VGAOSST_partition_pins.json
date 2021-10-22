@@ -4,7 +4,15 @@
 			"name" : "Top",
 			"pins" : [
 				{
+					"name" : "Red",
+					"strict" : false
+				},
+				{
 					"name" : "Green",
+					"strict" : false
+				},
+				{
+					"name" : "Blue",
 					"strict" : false
 				},
 				{
@@ -13,6 +21,30 @@
 				},
 				{
 					"name" : "V_SYNC",
+					"strict" : false
+				},
+				{
+					"name" : "LED1",
+					"strict" : false
+				},
+				{
+					"name" : "LED2",
+					"strict" : false
+				},
+				{
+					"name" : "LED3",
+					"strict" : false
+				},
+				{
+					"name" : "Butt3",
+					"strict" : false
+				},
+				{
+					"name" : "Butt1",
+					"strict" : false
+				},
+				{
+					"name" : "Butt2",
 					"strict" : false
 				},
 				{
